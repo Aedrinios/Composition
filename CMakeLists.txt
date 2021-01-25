@@ -5,7 +5,5 @@ set(CMAKE_CXX_STANDARD 14)
 
 include_directories(src)
 
-add_subdirectory(vendor/dlib-19.21/dlib dlib_build)
-
 add_executable(Composition
         src/main.cpp src/Image.cpp src/Image.h)
