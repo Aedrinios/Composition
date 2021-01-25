@@ -6,9 +6,10 @@
 #define COMPOSITION_IMAGE_H
 
 
+#include <string>
+
 class Image {
 
 };
-
 
 #endif //COMPOSITION_IMAGE_H
