@@ -6,7 +6,7 @@
 #define COMPOSITION_IMAGE_H
 
 #include <string>
-#include "Tools/ChannelType.h"
+#include "Tools/ImageType.h"
 
 
 class Image {
@@ -15,19 +15,21 @@ private:
 	size_t size = 0;
 	int width;
 	int height;
-	ChannelType channel;
+	int channel;
 public:
-	Image(const std::string *filename);
+	Image(const std::string &filename);
 
-	Image(int w, int h, ChannelType channels);
+	Image(int w, int h, int c);
 
 	Image(const Image &img);
 
 	~Image();
 
-	bool read(const std::string *filename);
+	bool read(const std::string &filename);
 
-	bool write(const std::string *filename);
+	bool write(const std::string& filename);
+
+	static ImageType getImageType(const std::string& filename);
 
 	// Begin : assessor
 	inline int getWidth() const {
@@ -38,7 +40,7 @@ public:
 		return height;
 	}
 
-	inline ChannelType getChannel() const {
+	inline int getChannel() const {
 		return channel;
 	}
 
@@ -46,7 +48,7 @@ public:
 		return size;
 	}
 
-	inline uint8_t *getData() const {
+	inline uint8_t* getData() const {
 		return data;
 	}
 	// End : assessor

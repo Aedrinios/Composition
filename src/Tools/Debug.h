@@ -6,8 +6,10 @@
 #define COMPOSITION_DEBUG_H
 
 #include <string>
+
 namespace Debug {
-	void log(const std::string& str);
+	void log(const std::string &str);
+	//void Exception(const std::string& str);
 };
 
 
