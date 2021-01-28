@@ -12,6 +12,8 @@
 
 namespace ImageProcessingHelper{
     Image median_images(std::vector<Image> images);
+
+	Image crop(Image img, int width, int height);
 };
 
 
