@@ -4,6 +4,7 @@
 #include "Image.h"
 #include <string>
 #include "Helpers/FileHelper.h"
+#include "Helpers/ImageProcessingHelper.h"
 #include "Tools/Debug.h"
 
 int main() {
@@ -18,7 +19,9 @@ int main() {
 		copy.getData()[i] = 0;
 	}
 	copy.write("../out/output-copy.png");
-
+	Image toCrop("resources/images/1.jpg");
+	Image cropped = ImageProcessingHelper::crop(toCrop, img.getWidth(),img.getHeight());
+	cropped.write("../out/cropped.png");
 	//Copy to jpg
 	img.write("../out/output-convert.png");
 	//Blank
