@@ -65,3 +65,21 @@ ImageType Image::getImageType(const std::string &filename) {
 	}
 	return ImageType::PNG;
 }
+
+std::vector<int> Image::getPixel(int x, int y) {
+    std::vector<int> pixel;
+    if(channel == 3){
+        pixel.push_back(data[x * width + y + 2 * y]);
+        pixel.push_back(data[x * width + y + 2 * y + 1]);
+        pixel.push_back(data[x * width + y + 2 * y + 2]);
+    }
+    return pixel;
+}
+
+void Image::setPixel(int x, int y, std::vector<int> colors) {
+    if(channel == 3){
+        data[x * width + y + 2 * y] = colors[0];
+        data[x * width + y + 2 * y + 1] = colors[1];
+        data[x * width + y + 2 * y + 2] = colors[2];
+    }
+}

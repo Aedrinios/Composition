@@ -7,6 +7,7 @@
 
 #include "Image.h"
 #include <vector>
+#include <math.h>
 
 namespace ImageProcessingHelper{
     Image median_images(vector<Image> images);

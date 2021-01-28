@@ -7,7 +7,7 @@
 
 #include <string>
 #include "Tools/ImageType.h"
-
+#include <vector>
 
 class Image {
 private:
@@ -28,6 +28,10 @@ public:
 	bool read(const std::string &filename);
 
 	bool write(const std::string& filename);
+
+	std::vector<int> getPixel(int x, int y);
+
+	void setPixel(int x, int y, std::vector<int> colors);
 
 	static ImageType getImageType(const std::string& filename);
 
