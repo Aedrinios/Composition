@@ -13,7 +13,9 @@ add_executable(Composition
         src/Tools/Debug.cpp
         src/Tools/ImageType.h
         src/Helpers/StringHelpers.cpp
-        src/Helpers/StringHelpers.h)
+        src/Helpers/StringHelpers.h
+        src/Helpers/FileHelper.cpp
+        src/Helpers/FileHelper.h)
 
 target_include_directories(Composition PRIVATE
         "vendor/stb")

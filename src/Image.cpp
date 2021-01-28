@@ -24,14 +24,16 @@ Image::Image(int w, int h, int c) : width(w), height(h), channel(c) {
 	data = new uint8_t[size];
 }
 
+Image::Image(const Image &img) : Image(img.getWidth(), img.getHeight(), img.getChannel()) {
+	data = new uint8_t[img.getSize()];
+	for (int i = 0; i < img.getSize(); ++i) {
+		data[i] = img.getData()[i];
+	}
+}
+
 Image::~Image() {
 	stbi_image_free(data);
 }
-
-Image::Image(const Image &img) : Image(img.getWidth(), img.getHeight(), img.getChannel()) {
-	data = img.getData();
-}
-
 bool Image::read(const std::string &filename) {
 	data = stbi_load(filename.c_str(), &width, &height, &channel, 0);
 	return data != nullptr;
