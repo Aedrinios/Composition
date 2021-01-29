@@ -69,17 +69,17 @@ ImageType Image::getImageType(const std::string &filename) {
 std::vector<int> Image::getPixel(int x, int y) {
     std::vector<int> pixel;
     if(channel == 3){
-        pixel.push_back(data[x * 2 * width + (y * 3)]);
-        pixel.push_back(data[x * 2 * width + (y * 3) + 1]);
-        pixel.push_back(data[x * 2 * width + (y * 3) + 2]);
+        pixel.push_back(data[(x * 3 * width) + (y * 3)]);
+        pixel.push_back(data[(x * 3 * width) + (y * 3) + 1]);
+        pixel.push_back(data[(x * 3 * width) + (y * 3) + 2]);
     }
     return pixel;
 }
 
 void Image::setPixel(int x, int y, std::vector<int> colors) {
     if(channel == 3){
-        data[x * 2 * width + (y * 3)] = colors[0];
-        data[x * 2 * width + (y * 3) + 1] = colors[1];
-        data[x * 2 * width + (y * 3) + 2] = colors[2];
+        data[(x * 3 * width) + (y * 3)] = colors[0];
+        data[(x * 3 * width) + (y * 3) + 1] = colors[1];
+        data[(x * 3 * width) + (y * 3) + 2] = colors[2];
     }
 }
