@@ -13,11 +13,13 @@ int main() {
 	FileHelper::clearDirectory("../out");
 	//Basic Usage
 
-    Image img1("resources/images/1.jpg");
-    Image img2("resources/images/2.jpg");
+//    Image img1("resources/images/1.jpg");
+//    Image img2("resources/images/2.jpg");
     Image img3("resources/images/3.jpg");
 
-    std::vector<Image> images { img1,img2,img3 };
-    Image img = ImageProcessingHelper::median_images(images);
-    img.write("../out/median.jpg");
+    ImageProcessingHelper::crop(img3,500,500).write("../out/cropped.jpg");
+
+    //std::vector<Image> images { img1,img2,img3 };
+    //Image img = ImageProcessingHelper::median_images(images);
+   // img.write("../out/median.jpg");
 }

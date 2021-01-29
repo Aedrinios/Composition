@@ -45,8 +45,8 @@ Image ImageProcessingHelper::median_images(std::vector<Image> images) {
 
 Image ImageProcessingHelper::crop(Image img, int width, int height) {
 	Image ni(width, height, img.getChannel());
-	for (int x = 0; x < height * img.getChannel(); ++x) {
-		for (int y = 0; y < width * img.getChannel(); ++y) {
+	for (int x = 0; x < height; ++x) {
+		for (int y = 0; y < width; ++y) {
 			ni.setPixel(x, y, img.getPixel(x, y));
 		}
 	}
