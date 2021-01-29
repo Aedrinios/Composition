@@ -49,6 +49,52 @@ Image ImageProcessingHelper::median_images(std::vector<Image> images) {
 	return resImg;
 }
 
+void ImageProcessingHelper::detect_subjects(std::vector<Image> &imageSubjects, Image background) {
+	int width = background.getWidth();
+	int height = background.getHeight();
+	for (int x = 0; x < height; x++) {
+		for (int y = 0; y < width; y++) {
+			for (int k = 0; k < imageSubjects.size(); k++) {
+				std::vector<int> subjectPixel = imageSubjects[k].getPixel(x, y);
+				std::vector<int> bgPixel = background.getPixel(x, y);
+				if (ImageProcessingHelper::calculate_tolerance(subjectPixel, bgPixel, 5)) {
+					imageSubjects[k].setPixel(x, y, ImageProcessingHelper::pink);
+				}
+			}
+		}
+	}
+	for (int i = 0; i < imageSubjects.size(); ++i) {
+		imageSubjects[i].write("../out/pinked" + std::to_string(i) + ".jpg");
+	}
+}
+
+bool ImageProcessingHelper::calculate_tolerance(std::vector<int> pixelColor, std::vector<int> pixelRef, int tolerance) {
+
+	for (int i = 0; i < pixelColor.size(); ++i) {
+		if (!(pixelColor[i] <= pixelRef[i] + tolerance && pixelRef[i] - tolerance <= pixelColor[i])) {
+			return false;
+		}
+	}
+	return true;
+}
+
+Image ImageProcessingHelper::merge_diff_images(std::vector<Image> imageSubjects, Image background) {
+	int width = background.getWidth();
+	int height = background.getHeight();
+	for (int x = 0; x < height; x++) {
+		for (int y = 0; y < width; y++) {
+			for (int k = 0; k < imageSubjects.size(); k++) {
+				std::vector<int> subjectPixel = imageSubjects[k].getPixel(x, y);
+				std::vector<int> bgPixel = background.getPixel(x, y);
+				if (subjectPixel != ImageProcessingHelper::pink) {
+					background.setPixel(x, y, subjectPixel);
+				}
+			}
+		}
+	}
+	return background;
+}
+
 Image ImageProcessingHelper::crop(Image img, int width, int height) {
 	Image ni(width, height, img.getChannel());
 	for (int x = 0; x < height; ++x) {

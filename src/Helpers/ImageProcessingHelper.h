@@ -10,8 +10,16 @@
 #include <math.h>
 #include <algorithm>
 
-namespace ImageProcessingHelper{
-    Image median_images(std::vector<Image> images);
+namespace ImageProcessingHelper {
+	static std::vector<int> pink{255, 20, 147};
+
+	Image median_images(std::vector<Image> images);
+
+	void detect_subjects(std::vector<Image> &imageSubjects, Image background);
+
+	bool calculate_tolerance(std::vector<int> pixelColor, std::vector<int> pixelRef, int tolerance);
+
+	Image merge_diff_images(std::vector<Image> imageSubjects, Image background);
 
 	Image crop(Image img, int width, int height);
 };
