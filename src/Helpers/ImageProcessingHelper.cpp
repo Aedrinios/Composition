@@ -18,8 +18,8 @@ Image ImageProcessingHelper::median_images(std::vector<Image> images) {
     Debug::log(std::to_string(resImg.getWidth()));
     std::vector<int> currentPixel;
     std::vector<int> resultPixel;
-    for(int i = 0; i < width; i++){
-        for(int j = 0; j < height; j++){
+    for(int i = 0; i < height; i++){
+        for(int j = 0; j < width; j++){
             for(int k = 0; k < images.size(); k++){
                 currentPixel = images[k].getPixel(i,j);
                 red_median.push_back(currentPixel[0]);
