@@ -8,9 +8,12 @@
 #include "Image.h"
 #include <vector>
 #include <math.h>
+#include <algorithm>
 
 namespace ImageProcessingHelper{
-    Image median_images(vector<Image> images);
+    Image median_images(std::vector<Image> images);
+
+	Image crop(Image img, int width, int height);
 };
 
 
