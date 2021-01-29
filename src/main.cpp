@@ -21,7 +21,7 @@ int main() {
     Debug::log(std::to_string(img1.getSize()));
     Debug::log(std::to_string(img2.getSize()));
     Debug::log(std::to_string(img3.getSize()));
-    ImageProcessingHelper::crop(img1,500,500).write("../out/cropped.jpg");
+//    ImageProcessingHelper::crop(img1,img1.getWidth(),img1.getHeight()).write("../out/cropped.jpg");
 
     std::vector<Image> images { img1, img2, img3 };
     Image img = ImageProcessingHelper::median_images(images);
