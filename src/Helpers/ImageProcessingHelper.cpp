@@ -113,9 +113,9 @@ void ImageProcessingHelper::filter_cc(Image &image, const int minSize) {
         for (int y = 0; y < image.getWidth(); ++y) {
             if (image.getPixel(x, y) != ImageProcessingHelper::pink) {
                 cc = ImageProcessingHelper::get_cc(copy, x, y);
-                if (cc.size() > minSize) {
+                if (cc.size() < minSize) {
                     for (int i = 0; i < cc.size(); ++i) {
-                        image.setPixel(x, y, ImageProcessingHelper::pink);
+                        image.setPixel(cc[i][0], cc[i][1], ImageProcessingHelper::pink);
                     }
                 }
             }
@@ -167,7 +167,7 @@ std::vector<std::array<int, 2>> ImageProcessingHelper::get_cc(Image &image, int 
             }
         }
 
-        if (y + 1 >= 0) {
+        if (y + 1 < image.getWidth()) {
             if (image.getPixel(x, y + 1) != ImageProcessingHelper::pink) {
                 ccStartPosList.push_back({x, y + 1});
                 image.setPixel(x, y + 1, ImageProcessingHelper::pink);
@@ -178,6 +178,13 @@ std::vector<std::array<int, 2>> ImageProcessingHelper::get_cc(Image &image, int 
             if (image.getPixel(x + 1, y - 1) != ImageProcessingHelper::pink) {
                 ccStartPosList.push_back({x + 1, y - 1});
                 image.setPixel(x + 1, y - 1, ImageProcessingHelper::pink);
+            }
+        }
+
+        if(x + 1 < image.getHeight()){
+            if (image.getPixel(x + 1, y) != ImageProcessingHelper::pink) {
+                ccStartPosList.push_back({x + 1, y});
+                image.setPixel(x + 1, y, ImageProcessingHelper::pink);
             }
         }
 
