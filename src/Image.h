@@ -29,7 +29,7 @@ public:
 
 	bool write(const std::string& filename);
 
-	std::vector<int> getPixel(int x, int y);
+	std::vector<int> getPixel(int x, int y) const;
 
 	void setPixel(int x, int y, std::vector<int> colors);
 

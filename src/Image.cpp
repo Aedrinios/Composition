@@ -66,7 +66,7 @@ ImageType Image::getImageType(const std::string &filename) {
 	return ImageType::PNG;
 }
 
-std::vector<int> Image::getPixel(int x, int y) {
+std::vector<int> Image::getPixel(int x, int y) const {
     std::vector<int> pixel;
     if(channel == 3){
         pixel.push_back(data[(x * 3 * width) + (y * 3)]);
