@@ -53,10 +53,20 @@ bool Image::write(const std::string &filename) {
 
 std::vector<int> Image::getPixel(int x, int y) {
 	std::vector<int> pixel;
-	if (channel == 3) {
+	if (channel == 1) {
+		pixel.push_back(data[(x * 3 * width) + (y * 3)]);
+	} else if (channel == 2) {
+		pixel.push_back(data[(x * 3 * width) + (y * 3)]);
+		pixel.push_back(data[(x * 3 * width) + (y * 3) + 1]);
+	} else if (channel == 3) {
 		pixel.push_back(data[(x * 3 * width) + (y * 3)]);
 		pixel.push_back(data[(x * 3 * width) + (y * 3) + 1]);
 		pixel.push_back(data[(x * 3 * width) + (y * 3) + 2]);
+	} else if (channel == 4) {
+		pixel.push_back(data[(x * 3 * width) + (y * 3)]);
+		pixel.push_back(data[(x * 3 * width) + (y * 3) + 1]);
+		pixel.push_back(data[(x * 3 * width) + (y * 3) + 2]);
+		pixel.push_back(data[(x * 3 * width) + (y * 3) + 3]);
 	}
 	return pixel;
 }
