@@ -2,12 +2,14 @@
 // Created by Aedrinios on 17/01/2021.
 //
 #include "Image.h"
+#include "UserInterface.h"
 #include <string>
 #include "Helpers/FileHelper.h"
 #include "Helpers/ImageProcessingHelper.h"
 #include "Tools/Debug.h"
 #include "Helpers/ImageProcessingHelper.h"
 #include <vector>
+using namespace std;
 
 int main() {
 	FileHelper::clearDirectory("../out");
@@ -26,4 +28,7 @@ int main() {
     std::vector<Image> images { img1, img2, img3 };
     Image img = ImageProcessingHelper::median_images(images);
     img.write("../out/median.jpg");
+
+    UserInterface UI;
+    UI.start();
 }
