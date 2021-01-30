@@ -24,9 +24,13 @@ namespace ImageProcessingHelper {
 
     Image crop(Image img, int width, int height);
 
-    void filter_cc(Image &image, const int minSize);
+    void filter_cc(Image &image, int minSize);
 
     std::vector<std::array<int, 2>> get_cc(Image& image, int startX, int startY);
+
+    int cc_size(Image &image, int startX, int startY);
+
+    void cc_remove(Image &image, int startX, int startY);
 };
 
 
