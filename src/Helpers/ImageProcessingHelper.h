@@ -9,6 +9,7 @@
 #include <vector>
 #include <math.h>
 #include <algorithm>
+#include <array>
 
 namespace ImageProcessingHelper {
 	static std::vector<int> pink{255, 20, 147};
@@ -25,7 +26,7 @@ namespace ImageProcessingHelper {
 
 	void filter_cc(Image& image,const int minSize);
 
-	std::vector<int[2]> get_cc(Image image, int startX, int startY);
+    std::vector<std::array<int, 2> > get_cc(Image image, int startX, int startY);
 };
 
 

@@ -5,7 +5,7 @@
 #include "ImageProcessingHelper.h"
 #include "Tools/Debug.h"
 #include <string>
-#include <deque>
+#include <array>
 
 Image ImageProcessingHelper::median_images(std::vector<Image> images) {
     int width = images[0].getWidth();
@@ -107,10 +107,11 @@ Image ImageProcessingHelper::crop(Image img, int width, int height) {
 }
 
 void ImageProcessingHelper::filter_cc(Image &image, const int minSize) {
+    std::vector<std::array<int, 2> > cc;
     for (int x = 0; x < image.getHeight(); ++x) {
         for (int y = 0; y < image.getWidth(); ++y) {
             if (image.getPixel(x, y) != ImageProcessingHelper::pink) {
-                std::vector<int[2]> cc = ImageProcessingHelper::get_cc(image, x, y);
+                cc = ImageProcessingHelper::get_cc(image, x, y);
                 if (cc.size() > minSize) {
                     for (int i = 0; i < cc.size(); ++i) {
                         image.setPixel(x, y, ImageProcessingHelper::pink);
@@ -121,10 +122,10 @@ void ImageProcessingHelper::filter_cc(Image &image, const int minSize) {
     }
 }
 
-std::vector<int[2]> get_cc(Image image, int startX, int startY) {
+std::vector<std::array<int, 2> > get_cc(Image image, int startX, int startY) {
     int index = 0;
-    std::vector<int[2]> ccStartPosList;
-    int pixelPos[2] = {startX, startY};
+    std::vector<std::array<int, 2> > ccStartPosList;
+    std::array<int, 2> pixelPos = {startX, startY};
 
     if (image.getPixel(pixelPos[0], pixelPos[1]) != ImageProcessingHelper::pink) {
         index++;
@@ -137,7 +138,7 @@ std::vector<int[2]> get_cc(Image image, int startX, int startY) {
         pixelPos[1] = ccStartPosList.back()[1];
         for (int i = pixelPos[0] - 1; i < pixelPos[0] + 2; i++) {
             for (int j = pixelPos[1] - 1; j < pixelPos[1] + 2; j++) {
-                if(i < image.getWidth() && j < image.getHeight() && i >= 0 && j >= 0){
+                if (i < image.getWidth() && j < image.getHeight() && i >= 0 && j >= 0) {
                     if (image.getPixel(pixelPos[0], pixelPos[1]) != ImageProcessingHelper::pink) {
                         index++;
                         ccStartPosList.push_back(pixelPos);
