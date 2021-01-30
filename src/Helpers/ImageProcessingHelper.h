@@ -12,21 +12,21 @@
 #include <array>
 
 namespace ImageProcessingHelper {
-	static std::vector<int> pink{255, 20, 147};
+    static std::vector<int> pink{255, 20, 147};
 
-	Image median_images(std::vector<Image> images);
+    Image median_images(std::vector<Image> images);
 
-	void detect_subjects(std::vector<Image> &imageSubjects, Image background);
+    void detect_subjects(std::vector<Image> &imageSubjects, Image background);
 
-	bool calculate_tolerance(std::vector<int> pixelColor, std::vector<int> pixelRef, int tolerance);
+    bool calculate_tolerance(std::vector<int> pixelColor, std::vector<int> pixelRef, int tolerance);
 
-	Image merge_diff_images(std::vector<Image> imageSubjects, Image background);
+    Image merge_diff_images(std::vector<Image> imageSubjects, Image background);
 
-	Image crop(Image img, int width, int height);
+    Image crop(Image img, int width, int height);
 
-	void filter_cc(Image& image,const int minSize);
+    void filter_cc(Image &image, const int minSize);
 
-    std::vector<std::array<int, 2> > get_cc(Image image, int startX, int startY);
+    std::vector<std::array<int, 2>> get_cc(Image image, int startX, int startY);
 };
 
 

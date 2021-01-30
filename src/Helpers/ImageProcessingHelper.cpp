@@ -5,7 +5,6 @@
 #include "ImageProcessingHelper.h"
 #include "Tools/Debug.h"
 #include <string>
-#include <array>
 
 Image ImageProcessingHelper::median_images(std::vector<Image> images) {
     int width = images[0].getWidth();
@@ -65,6 +64,7 @@ void ImageProcessingHelper::detect_subjects(std::vector<Image> &imageSubjects, I
         }
     }
     for (int i = 0; i < imageSubjects.size(); ++i) {
+        ImageProcessingHelper::filter_cc(imageSubjects[i], 1000);
         imageSubjects[i].write("../out/pinked" + std::to_string(i) + ".jpg");
     }
 }
@@ -122,9 +122,9 @@ void ImageProcessingHelper::filter_cc(Image &image, const int minSize) {
     }
 }
 
-std::vector<std::array<int, 2> > get_cc(Image image, int startX, int startY) {
+std::vector<std::array<int, 2>> ImageProcessingHelper::get_cc(Image image, int startX, int startY) {
     int index = 0;
-    std::vector<std::array<int, 2> > ccStartPosList;
+    std::vector<std::array<int, 2>> ccStartPosList;
     std::array<int, 2> pixelPos = {startX, startY};
 
     if (image.getPixel(pixelPos[0], pixelPos[1]) != ImageProcessingHelper::pink) {
