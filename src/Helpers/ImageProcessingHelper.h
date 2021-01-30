@@ -26,7 +26,7 @@ namespace ImageProcessingHelper {
 
     void filter_cc(Image &image, const int minSize);
 
-    std::vector<std::array<int, 2>> get_cc(Image image, int startX, int startY);
+    std::vector<std::array<int, 2>> get_cc(Image& image, int startX, int startY);
 };
 
 

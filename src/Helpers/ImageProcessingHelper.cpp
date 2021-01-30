@@ -64,8 +64,8 @@ void ImageProcessingHelper::detect_subjects(std::vector<Image> &imageSubjects, I
         }
     }
     for (int i = 0; i < imageSubjects.size(); ++i) {
-        ImageProcessingHelper::filter_cc(imageSubjects[i], 1000);
         imageSubjects[i].write("../out/pinked" + std::to_string(i) + ".jpg");
+        ImageProcessingHelper::filter_cc(imageSubjects[i], 1000);
     }
 }
 
@@ -108,10 +108,11 @@ Image ImageProcessingHelper::crop(Image img, int width, int height) {
 
 void ImageProcessingHelper::filter_cc(Image &image, const int minSize) {
     std::vector<std::array<int, 2> > cc;
+    Image copy = image;
     for (int x = 0; x < image.getHeight(); ++x) {
         for (int y = 0; y < image.getWidth(); ++y) {
             if (image.getPixel(x, y) != ImageProcessingHelper::pink) {
-                cc = ImageProcessingHelper::get_cc(image, x, y);
+                cc = ImageProcessingHelper::get_cc(copy, x, y);
                 if (cc.size() > minSize) {
                     for (int i = 0; i < cc.size(); ++i) {
                         image.setPixel(x, y, ImageProcessingHelper::pink);
@@ -120,33 +121,74 @@ void ImageProcessingHelper::filter_cc(Image &image, const int minSize) {
             }
         }
     }
+    image.write("../out/filter_over.jpg");
 }
 
-std::vector<std::array<int, 2>> ImageProcessingHelper::get_cc(Image image, int startX, int startY) {
+std::vector<std::array<int, 2>> ImageProcessingHelper::get_cc(Image &image, int startX, int startY) {
     int index = 0;
     std::vector<std::array<int, 2>> ccStartPosList;
-    std::array<int, 2> pixelPos = {startX, startY};
+    int x, y;
 
-    if (image.getPixel(pixelPos[0], pixelPos[1]) != ImageProcessingHelper::pink) {
-        index++;
-        ccStartPosList.push_back(pixelPos);
-        image.setPixel(pixelPos[0], pixelPos[1], ImageProcessingHelper::pink);
+    if (image.getPixel(startX, startY) != ImageProcessingHelper::pink) {
+        ccStartPosList.push_back({startX, startY});
+        image.setPixel(startX, startY, ImageProcessingHelper::pink);
     }
 
     while (index != ccStartPosList.size()) {
-        pixelPos[0] = ccStartPosList.back()[0];
-        pixelPos[1] = ccStartPosList.back()[1];
-        for (int i = pixelPos[0] - 1; i < pixelPos[0] + 2; i++) {
-            for (int j = pixelPos[1] - 1; j < pixelPos[1] + 2; j++) {
-                if (i < image.getWidth() && j < image.getHeight() && i >= 0 && j >= 0) {
-                    if (image.getPixel(pixelPos[0], pixelPos[1]) != ImageProcessingHelper::pink) {
-                        index++;
-                        ccStartPosList.push_back(pixelPos);
-                        image.setPixel(pixelPos[0], pixelPos[1], ImageProcessingHelper::pink);
-                    }
-                }
+        x = ccStartPosList.back()[0];
+        y = ccStartPosList.back()[1];
+
+        if (x - 1 >= 0 && y - 1 >= 0) {
+            if (image.getPixel(x - 1, y - 1) != ImageProcessingHelper::pink) {
+                ccStartPosList.push_back({x - 1, y - 1});
+                image.setPixel(x - 1, y - 1, ImageProcessingHelper::pink);
             }
         }
+
+        if (x - 1 >= 0) {
+            if (image.getPixel(x - 1, y) != ImageProcessingHelper::pink) {
+                index++;
+                ccStartPosList.push_back({x - 1, y});
+                image.setPixel(x - 1, y, ImageProcessingHelper::pink);
+            }
+        }
+
+        if (x - 1 >= 0 && y + 1 < image.getWidth()) {
+            if (image.getPixel(x - 1, y + 1) != ImageProcessingHelper::pink) {
+                ccStartPosList.push_back({x - 1, y + 1});
+                image.setPixel(x - 1, y + 1, ImageProcessingHelper::pink);
+            }
+        }
+
+        if (y - 1 >= 0) {
+            if (image.getPixel(x, y - 1) != ImageProcessingHelper::pink) {
+                ccStartPosList.push_back({x, y - 1});
+                image.setPixel(x, y - 1, ImageProcessingHelper::pink);
+            }
+        }
+
+        if (y + 1 >= 0) {
+            if (image.getPixel(x, y + 1) != ImageProcessingHelper::pink) {
+                ccStartPosList.push_back({x, y + 1});
+                image.setPixel(x, y + 1, ImageProcessingHelper::pink);
+            }
+        }
+
+        if (x + 1 < image.getHeight() && y - 1 >= 0) {
+            if (image.getPixel(x + 1, y - 1) != ImageProcessingHelper::pink) {
+                ccStartPosList.push_back({x + 1, y - 1});
+                image.setPixel(x + 1, y - 1, ImageProcessingHelper::pink);
+            }
+        }
+
+        if (x + 1 < image.getHeight() && y + 1 < image.getWidth()) {
+            if (image.getPixel(x + 1, y + 1) != ImageProcessingHelper::pink) {
+                ccStartPosList.push_back({x + 1, y + 1});
+                image.setPixel(x + 1, y + 1, ImageProcessingHelper::pink);
+            }
+        }
+
+        index++;
     }
     return ccStartPosList;
 }
