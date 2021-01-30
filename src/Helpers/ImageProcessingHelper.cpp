@@ -105,3 +105,22 @@ Image ImageProcessingHelper::crop(Image img, int width, int height) {
 	return ni;
 }
 
+void ImageProcessingHelper::filter_cc(Image& image,const int minSize) {
+	for (int x = 0; x < image.getHeight(); ++x) {
+		for (int y = 0; y < image.getWidth(); ++y) {
+			if (image.getPixel(x, y) != ImageProcessingHelper::pink){
+				std::vector<std::vector<int>> cc = ImageProcessingHelper::get_cc(image, x,y);
+				if (cc.size() > minSize){
+					for (int i = 0; i < cc.size(); ++i) {
+						cc[i] = ImageProcessingHelper::pink;
+					}
+				}
+			}
+		}
+	}
+}
+
+std::vector<std::vector<int>> get_cc(const Image& image, int startX, int startY){
+	return std::vector<std::vector<int>>();
+}
+
