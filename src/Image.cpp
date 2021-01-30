@@ -34,6 +34,7 @@ Image::Image(const Image &img) : Image(img.getWidth(), img.getHeight(), img.getC
 Image::~Image() {
 	stbi_image_free(data);
 }
+
 bool Image::read(const std::string &filename) {
 	data = stbi_load(filename.c_str(), &width, &height, &channel, 0);
 	return data != nullptr;
@@ -49,6 +50,35 @@ bool Image::write(const std::string &filename) {
 	}
 	return success != 0;
 }
+
+std::vector<int> Image::getPixel(int x, int y) {
+	std::vector<int> pixel;
+	if (channel == 3) {
+		pixel.push_back(data[(x * 3 * width) + (y * 3)]);
+		pixel.push_back(data[(x * 3 * width) + (y * 3) + 1]);
+		pixel.push_back(data[(x * 3 * width) + (y * 3) + 2]);
+	}
+	return pixel;
+}
+
+void Image::setPixel(int x, int y, std::vector<int> colors) {
+	if (channel == 1) {
+		data[(x * 3 * width) + (y * 3)] = colors[0];
+	} else if (channel == 2) {
+		data[(x * 3 * width) + (y * 3)] = colors[0];
+		data[(x * 3 * width) + (y * 3) + 1] = colors[1];
+	} else if (channel == 3) {
+		data[(x * 3 * width) + (y * 3)] = colors[0];
+		data[(x * 3 * width) + (y * 3) + 1] = colors[1];
+		data[(x * 3 * width) + (y * 3) + 2] = colors[2];
+	} else if (channel == 4) {
+		data[(x * 3 * width) + (y * 3)] = colors[0];
+		data[(x * 3 * width) + (y * 3) + 1] = colors[1];
+		data[(x * 3 * width) + (y * 3) + 2] = colors[2];
+		data[(x * 3 * width) + (y * 3) + 3] = colors[3];
+	}
+}
+
 
 ImageType Image::getImageType(const std::string &filename) {
 	int pos = filename.find_last_of('.');
@@ -66,20 +96,3 @@ ImageType Image::getImageType(const std::string &filename) {
 	return ImageType::PNG;
 }
 
-std::vector<int> Image::getPixel(int x, int y) {
-    std::vector<int> pixel;
-    if(channel == 3){
-        pixel.push_back(data[(x * 3 * width) + (y * 3)]);
-        pixel.push_back(data[(x * 3 * width) + (y * 3) + 1]);
-        pixel.push_back(data[(x * 3 * width) + (y * 3) + 2]);
-    }
-    return pixel;
-}
-
-void Image::setPixel(int x, int y, std::vector<int> colors) {
-    if(channel == 3){
-        data[(x * 3 * width) + (y * 3)] = colors[0];
-        data[(x * 3 * width) + (y * 3) + 1] = colors[1];
-        data[(x * 3 * width) + (y * 3) + 2] = colors[2];
-    }
-}

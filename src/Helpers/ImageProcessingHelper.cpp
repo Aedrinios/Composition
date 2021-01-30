@@ -120,7 +120,7 @@ void ImageProcessingHelper::filter_cc(Image& image,const int minSize) {
 	}
 }
 
-std::vector<std::vector<int>> get_cc(const Image& image, int startX, int startY){
+std::vector<std::vector<int>> get_cc(Image image, int startX, int startY){
 	return std::vector<std::vector<int>>();
 }
 
