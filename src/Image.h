@@ -8,6 +8,7 @@
 #include <string>
 #include "Tools/ImageType.h"
 #include <vector>
+#include <array>
 
 class Image {
 private:
@@ -16,9 +17,12 @@ private:
 	int width;
 	int height;
 	int channel;
+	std::array<int, 2> leftTop;
+	std::array<int, 2> rightBottom;
 public:
 
 	std::string path;
+
 	Image(const std::string &filename);
 
 	Image(int w, int h, int c);
@@ -88,6 +92,22 @@ public:
 
 	inline std::string getPath() const {
 		return path;
+	}
+
+	inline std::array<int, 2> getLeftTop() {
+		return leftTop;
+	}
+
+	inline void setLeftTop(std::array<int, 2> rt) {
+		leftTop = rt;
+	}
+
+	inline std::array<int, 2> getRightBottom() {
+		return rightBottom;
+	}
+
+	inline void setRightBottom(std::array<int, 2> rb) {
+		rightBottom = rb;
 	}
 	// End : assessor
 
