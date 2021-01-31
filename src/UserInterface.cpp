@@ -51,6 +51,9 @@ void UserInterface::settings() {
         cout << "3 - Modifier la taille minimum d'un composant connexe (Actuellement : " + to_string(_min_size_connexe) + ")" << endl;
         cout << "4 - Activer/Désactiver le Fading" << endl;
         getline (cin, tmp);
+        if (tmp==""){
+            tmp="1";
+        }
         index = stoi(tmp);
         switch (index) {
             case 2 :
