@@ -8,10 +8,16 @@
 #include <string>
 
 namespace StringHelper {
-	// lower case std::string pass in parameter
+	/**
+	 * Lower case
+	 * @param str to lower
+	 */
 	void toLower(std::string *str);
 
-	// Upper case std::string pass in parameter
+	/**
+	 * Upper case
+	 * @param str to Upper
+	 */
 	void toUpper(std::string *str);
 }
 #endif //COMPOSITION_STRINGHELPERS_H

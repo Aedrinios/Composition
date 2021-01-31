@@ -9,8 +9,6 @@ add_executable(Composition
         src/main.cpp
         src/Image.cpp
         src/Image.h
-        src/UserInterface.cpp
-        src/UserInterface.h
         src/Tools/Debug.h
         src/Tools/Debug.cpp
         src/Tools/ImageType.h
