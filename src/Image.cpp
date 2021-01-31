@@ -13,6 +13,7 @@
 Image::Image(const std::string &filename) {
 	if (read(filename)) {
 		Debug::log("Read " + filename);
+		path = filename;
 		size = width * height * channel;
 	} else {
 		Debug::log("Can not read " + filename);
