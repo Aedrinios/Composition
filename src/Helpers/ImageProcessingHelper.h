@@ -36,6 +36,8 @@ namespace ImageProcessingHelper {
     int cc_size(Image &image, int startX, int startY);
 
     void cc_remove(Image &image, int startX, int startY);
+
+    Image merge_diff_images_distance(std::vector<Image> imageSubjects, Image background, float distance);
 };
 
 

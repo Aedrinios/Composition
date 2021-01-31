@@ -22,6 +22,7 @@ private:
     int _min_size_connexe = 1500;
     int _fading_state = 0;
     int _step = 0;
+    float _distance;
 public:
     void start();
     void setUp_images();
@@ -33,6 +34,8 @@ public:
     vector<Image> getImages();
 
     void enter_step();
+
+    void enter_distance();
 };
 
 

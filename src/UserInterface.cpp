@@ -58,6 +58,7 @@ void UserInterface::settings() {
         cout << "3 - Modifier la taille minimum d'un composant connexe (Actuellement : " + to_string(_min_size_connexe) + ")" << endl;
         cout << "4 - Activer/Désactiver le Fading" << endl;
         cout << "5 - Activer/Désactiver la step" << endl;
+        cout << "7 - Activer/Désactiver la distance" << endl;
         getline (cin, tmp);
         if (tmp==""){
             tmp="1";
@@ -76,6 +77,8 @@ void UserInterface::settings() {
             case 5 :
                 enter_step();
                 break;
+            case 7 :
+                enter_distance();
             default:
                 break;
         }
@@ -101,7 +104,12 @@ void UserInterface::image_processing(){
     ImageProcessingHelper::detect_subjects(_images, median, _tolerance, _min_size_connexe);
     Debug::log("end : add_subjects");
     Debug::log("begin : merge_diff_images");
-    ImageProcessingHelper::merge_diff_images(_images, median).write(_name_folder_out+"/full.jpg");
+    if(_distance > 0.0f){
+        ImageProcessingHelper::merge_diff_images_distance(_images, median, _distance).write(_name_folder_out+"/full_distance.jpg");
+    }
+    else{
+        ImageProcessingHelper::merge_diff_images(_images, median).write(_name_folder_out+"/full.jpg");
+    }
     Debug::log("end : merge_diff_images");
 
 }
@@ -152,6 +160,13 @@ void UserInterface::enter_step(){
     cout << "Nombre de step" << endl;
     getline (cin, tmp);
     _step = stoi(tmp);
+}
+
+void UserInterface::enter_distance(){
+    string tmp;
+    cout << "Distance entre les sujets" << endl;
+    getline (cin, tmp);
+    _distance = stoi(tmp);
 }
 
 vector<Image> UserInterface::getImages(){
