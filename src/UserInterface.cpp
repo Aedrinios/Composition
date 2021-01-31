@@ -1,12 +1,21 @@
 #include <Helpers/ImageProcessingHelper.h>
+#include <Tools/Debug.h>
 #include "UserInterface.h"
 
 //
 // Created by gacon on 30/01/2021.
 //
 void UserInterface::start(){
-    cout << "Composition d'images! Trop bien! " << endl;
+    cout << "Composition d'images! Trop bien! " << endl; //Greetings
 
+    setUp_images(); //Set up the Image vector
+
+    settings(); //Change parameters before image processing
+
+    image_processing(); //Image processing then export
+}
+
+void UserInterface::setUp_images(){
     //Set up images
     cout << "Veuillez entrer le nom du dossier contenant toutes les images à traiter" << endl;
     getline (cin, _name_folder_in);
@@ -16,7 +25,7 @@ void UserInterface::start(){
         getline (cin, _name_folder_in);
     }
     if(_name_folder_in==""){
-        _name_folder_in="resources/images";
+        _name_folder_in="resources/images/game";
     }
     string name_file;
     ostringstream stream;
@@ -30,23 +39,6 @@ void UserInterface::start(){
         stream.str("");
         stream.clear();
     }
-
-    settings();
-
-    //Export image
-    cout << "Traitement d'image terminée! Dans quel dossier voulez-vous exporter le résultat?" << endl;
-    getline (cin, _name_folder_out);
-    if(_name_folder_out==""){
-        _name_folder_out="out";
-    }
-    if (!FileHelper::exist("../"+_name_folder_out)){
-        FileHelper::createDirectory("../"+_name_folder_out);
-    }
-    /*for (int i=0; i < _images.size(); i++) {
-        _images[i].write("../"+_name_folder_out+"/oui"+to_string(i)+".jpg");
-    }*/
-    Image result = ImageProcessingHelper::median_images(_images);
-    result.write("../"+_name_folder_out+"result.jpg");
 }
 
 void UserInterface::settings() {
@@ -74,6 +66,29 @@ void UserInterface::settings() {
                 break;
         }
     }
+}
+
+void UserInterface::image_processing(){
+    cout << "Dans quel dossier voulez-vous exporter le résultat?" << endl;
+    getline (cin, _name_folder_out);
+    if(_name_folder_out==""){
+        _name_folder_out="out";
+    }
+    if (!FileHelper::exist("../"+_name_folder_out)){
+        FileHelper::createDirectory("../"+_name_folder_out);
+    }
+
+    Debug::log("begin : median_images");
+    Image median = ImageProcessingHelper::median_images(_images);
+    median.write("../out/median.jpg");
+    Debug::log("end : median_images");
+    Debug::log("begin : add_subjects");
+    ImageProcessingHelper::detect_subjects(_images, median, _tolerance, _min_size_connexe);
+    Debug::log("end : add_subjects");
+    Debug::log("begin : merge_diff_images");
+    ImageProcessingHelper::merge_diff_images(_images, median).write("../"+_name_folder_out+"/full.jpg");
+    Debug::log("end : merge_diff_images");
+
 }
 
 void UserInterface::enter_tolerance(){

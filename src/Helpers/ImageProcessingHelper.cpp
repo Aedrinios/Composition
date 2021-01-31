@@ -49,7 +49,7 @@ Image ImageProcessingHelper::median_images(std::vector<Image> images) {
 	return resImg;
 }
 
-void ImageProcessingHelper::detect_subjects(std::vector<Image> &imageSubjects, Image background) {
+void ImageProcessingHelper::detect_subjects(std::vector<Image> &imageSubjects, Image background, int tolerance, int min_size_connexe) {
 	int width = background.getWidth();
 	int height = background.getHeight();
 	for (int x = 0; x < height; x++) {
@@ -57,7 +57,7 @@ void ImageProcessingHelper::detect_subjects(std::vector<Image> &imageSubjects, I
 			for (int k = 0; k < imageSubjects.size(); k++) {
 				std::vector<int> subjectPixel = imageSubjects[k].getPixel(x, y);
 				std::vector<int> bgPixel = background.getPixel(x, y);
-				if (ImageProcessingHelper::calculate_tolerance(subjectPixel, bgPixel, 5)) {
+				if (ImageProcessingHelper::calculate_tolerance(subjectPixel, bgPixel, tolerance)) {
 					imageSubjects[k].setPixel(x, y, ImageProcessingHelper::pink);
 				}
 			}
@@ -65,7 +65,7 @@ void ImageProcessingHelper::detect_subjects(std::vector<Image> &imageSubjects, I
 	}
 	for (int i = 0; i < imageSubjects.size(); ++i) {
 		imageSubjects[i].write("../out/pinked" + std::to_string(i) + ".jpg");
-		ImageProcessingHelper::filter_cc(imageSubjects[i], 1500, std::to_string(i) + ".jpg");
+		ImageProcessingHelper::filter_cc(imageSubjects[i], min_size_connexe, std::to_string(i) + ".jpg");
 	}
 }
 

@@ -16,14 +16,16 @@ using namespace std;
 class UserInterface {
 private:
     vector<Image> _images;
-    string _name_folder_in = "resources/images";
+    string _name_folder_in = "resources/images/game";
     string _name_folder_out = "out";
-    int _tolerance = 7;
-    int _min_size_connexe = 1000;
+    int _tolerance = 5;
+    int _min_size_connexe = 1500;
     int _fading_state = 0;
 public:
     void start();
+    void setUp_images();
     void settings();
+    void image_processing();
     void enter_tolerance();
     void enter_size_connexe();
     void enter_fading();

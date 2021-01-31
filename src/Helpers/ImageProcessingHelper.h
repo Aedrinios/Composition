@@ -16,7 +16,7 @@ namespace ImageProcessingHelper {
 
     Image median_images(std::vector<Image> images);
 
-    void detect_subjects(std::vector<Image> &imageSubjects, Image background);
+    void detect_subjects(std::vector<Image> &imageSubjects, Image background, int tolerance, int min_size_connexe);
 
     bool calculate_tolerance(std::vector<int> pixelColor, std::vector<int> pixelRef, int tolerance);
 
