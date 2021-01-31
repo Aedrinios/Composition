@@ -17,8 +17,6 @@ private:
 	int height;
 	int channel;
 public:
-
-	std::string path;
 	Image(const std::string &filename);
 
 	Image(int w, int h, int c);
@@ -27,43 +25,15 @@ public:
 
 	~Image();
 
-	/**
-	 * Load image data
-	 * @param filename Path to image
-	 * @return success
-	 */
 	bool read(const std::string &filename);
 
-	/**
-	 * Save a new image file
-	 * @param filename path to destination
-	 * @return success
-	 */
-	bool write(const std::string &filename);
+	bool write(const std::string& filename);
 
+	std::vector<int> getPixel(int x, int y);
 
-	/**
-	 * Get value of pixel
-	 * @param x coordinate
-	 * @param y coordinate
-	 * @return pixel color
-	 */
-	std::vector<int> getPixel(int x, int y) const;
-
-	/***
-	 * Set value of pixel
-	 * @param x coordinate
-	 * @param y coordinate
-	 * @param colors
-	 */
 	void setPixel(int x, int y, std::vector<int> colors);
 
-	/**
-	 * Get image type
-	 * @param filename Path to image
-	 * @return image type
-	 */
-	static ImageType getImageType(const std::string &filename);
+	static ImageType getImageType(const std::string& filename);
 
 	// Begin : assessor
 	inline int getWidth() const {
@@ -82,12 +52,8 @@ public:
 		return size;
 	}
 
-	inline uint8_t *getData() const {
+	inline uint8_t* getData() const {
 		return data;
-	}
-
-	inline std::string getPath() const {
-		return path;
 	}
 	// End : assessor
 
