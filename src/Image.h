@@ -18,6 +18,7 @@ private:
 	int channel;
 public:
 
+	std::string path;
 	Image(const std::string &filename);
 
 	Image(int w, int h, int c);
@@ -38,7 +39,7 @@ public:
 	 * @param filename path to destination
 	 * @return success
 	 */
-	bool write(const std::string& filename);
+	bool write(const std::string &filename);
 
 
 	/**
@@ -62,7 +63,7 @@ public:
 	 * @param filename Path to image
 	 * @return image type
 	 */
-	static ImageType getImageType(const std::string& filename);
+	static ImageType getImageType(const std::string &filename);
 
 	// Begin : assessor
 	inline int getWidth() const {
@@ -81,8 +82,12 @@ public:
 		return size;
 	}
 
-	inline uint8_t* getData() const {
+	inline uint8_t *getData() const {
 		return data;
+	}
+
+	inline std::string getPath() const {
+		return path;
 	}
 	// End : assessor
 
