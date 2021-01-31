@@ -6,10 +6,12 @@
 #include "Helpers/FileHelper.h"
 #include "Helpers/ImageProcessingHelper.h"
 #include "Tools/Debug.h"
-#include "Helpers/ImageProcessingHelper.h"
+#include <ctime>
 #include <vector>
 
 int main() {
+	std::time_t start = time(0);
+
 	FileHelper::clearDirectory("../out");
 	//Basic Usage
 
@@ -25,10 +27,6 @@ int main() {
 	Image img10("resources/images/10.jpg");
 	Image img11("resources/images/11.jpg");
 
-	Debug::log(std::to_string(img1.getSize()));
-	Debug::log(std::to_string(img2.getSize()));
-	Debug::log(std::to_string(img3.getSize()));
-//    ImageProcessingHelper::crop(img1,img1.getWidth(),img1.getHeight()).write("../out/cropped.jpg");
 
 	std::vector<Image> images{img1,
 						   img2,
@@ -54,4 +52,7 @@ int main() {
 	Debug::log("end : merge_diff_images");
 
 
+	std::time_t end = time(0);
+	double seconds = difftime(start,end);
+	Debug::log("execution time" + std::to_string(seconds));
 }

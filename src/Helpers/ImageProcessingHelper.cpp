@@ -30,8 +30,6 @@ Image ImageProcessingHelper::median_images(std::vector<Image> images) {
 				red_median.push_back(currentPixel[0]);
 				green_median.push_back(currentPixel[1]);
 				blue_median.push_back(currentPixel[2]);
-//                Debug::log("r : " + std::to_string(currentPixel[0]) + ", g : " + std::to_string(currentPixel[1]) + ", b : " + std::to_string(currentPixel[2]));
-//                Debug::log(" of image " + std::to_string(k) + "in position : " + std::to_string(i) + ", " + std::to_string(j));
 			}
 			std::sort(red_median.begin(), red_median.end());
 			std::sort(green_median.begin(), green_median.end());
@@ -64,7 +62,7 @@ void ImageProcessingHelper::detect_subjects(std::vector<Image> &imageSubjects, I
 		}
 	}
 	for (int i = 0; i < imageSubjects.size(); ++i) {
-		imageSubjects[i].write("../out/pinked" + std::to_string(i) + ".jpg");
+		//imageSubjects[i].write("../out/pinked" + std::to_string(i) + ".jpg");
 		ImageProcessingHelper::filter_cc(imageSubjects[i], 1500, std::to_string(i) + ".jpg");
 	}
 }
@@ -122,7 +120,7 @@ void ImageProcessingHelper::filter_cc(Image &image, const int minSize, std::stri
 			}
 		}
 	}
-	image.write("../out/filter_cc_" + name);
+	//image.write("../out/filter_cc_" + name);
 }
 
 std::vector<std::array<int, 2>> ImageProcessingHelper::get_cc(Image &image, int startX, int startY) {
