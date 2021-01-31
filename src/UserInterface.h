@@ -21,6 +21,7 @@ private:
     int _tolerance = 5;
     int _min_size_connexe = 1500;
     int _fading_state = 0;
+    int _step = 0;
 public:
     void start();
     void setUp_images();
@@ -30,6 +31,8 @@ public:
     void enter_size_connexe();
     void enter_fading();
     vector<Image> getImages();
+
+    void enter_step();
 };
 
 

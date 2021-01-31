@@ -29,15 +29,22 @@ void UserInterface::setUp_images(){
     }
     string name_file;
     ostringstream stream;
+    int count = 0;
     for (const auto & entry : filesystem::directory_iterator(_name_folder_in)){
-        stream << entry.path();
-        name_file = stream.str();
-        name_file.erase(name_file.end()-1);
-        name_file.erase(name_file.begin());
-        Image img(name_file);
-        _images.push_back(img);
-        stream.str("");
-        stream.clear();
+        if(count < _step || _step == 0){
+            stream << entry.path();
+            name_file = stream.str();
+            name_file.erase(name_file.end()-1);
+            name_file.erase(name_file.begin());
+            Image img(name_file);
+            _images.push_back(img);
+            stream.str("");
+            stream.clear();
+            count++;
+        }
+        else{
+            count = 0;
+        }
     }
 }
 
@@ -50,6 +57,7 @@ void UserInterface::settings() {
         cout << "2 - Modifier la tolérance (Actuellement : " + to_string(_tolerance) + ")" << endl;
         cout << "3 - Modifier la taille minimum d'un composant connexe (Actuellement : " + to_string(_min_size_connexe) + ")" << endl;
         cout << "4 - Activer/Désactiver le Fading" << endl;
+        cout << "5 - Activer/Désactiver la step" << endl;
         getline (cin, tmp);
         if (tmp==""){
             tmp="1";
@@ -65,6 +73,9 @@ void UserInterface::settings() {
             case 4 :
                 enter_fading();
                 break;
+            case 5 :
+                enter_step();
+                break;
             default:
                 break;
         }
@@ -75,21 +86,22 @@ void UserInterface::image_processing(){
     cout << "Dans quel dossier voulez-vous exporter le résultat?" << endl;
     getline (cin, _name_folder_out);
     if(_name_folder_out==""){
-        _name_folder_out="out";
+        _name_folder_out="../out";
     }
-    if (!FileHelper::exist("../"+_name_folder_out)){
-        FileHelper::createDirectory("../"+_name_folder_out);
+    if (!FileHelper::exist(_name_folder_out)){
+        FileHelper::createDirectory(_name_folder_out);
     }
 
     Debug::log("begin : median_images");
     Image median = ImageProcessingHelper::median_images(_images);
-    median.write("../out/median.jpg");
+    median.write(_name_folder_out + "/median.jpg");
     Debug::log("end : median_images");
     Debug::log("begin : add_subjects");
+
     ImageProcessingHelper::detect_subjects(_images, median, _tolerance, _min_size_connexe);
     Debug::log("end : add_subjects");
     Debug::log("begin : merge_diff_images");
-    ImageProcessingHelper::merge_diff_images(_images, median).write("../"+_name_folder_out+"/full.jpg");
+    ImageProcessingHelper::merge_diff_images(_images, median).write(_name_folder_out+"/full.jpg");
     Debug::log("end : merge_diff_images");
 
 }
@@ -133,6 +145,13 @@ void UserInterface::enter_fading(){
             _fading_state=0;
         }
     }
+}
+
+void UserInterface::enter_step(){
+    string tmp;
+    cout << "Nombre de step" << endl;
+    getline (cin, tmp);
+    _step = stoi(tmp);
 }
 
 vector<Image> UserInterface::getImages(){
