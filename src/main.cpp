@@ -53,6 +53,6 @@ int main() {
 
 
 	std::time_t end = time(0);
-	double seconds = difftime(start,end);
+	double seconds = difftime(end, start);
 	Debug::log("execution time" + std::to_string(seconds));
 }
