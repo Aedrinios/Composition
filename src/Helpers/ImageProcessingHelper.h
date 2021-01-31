@@ -14,6 +14,11 @@
 namespace ImageProcessingHelper {
     static std::vector<int> pink{255, 20, 147};
 
+    /**
+     *
+     * @param images
+     * @return
+     */
     Image median_images(std::vector<Image> images);
 
     void detect_subjects(std::vector<Image> &imageSubjects, Image background, int tolerance, int min_size_connexe);
@@ -24,7 +29,7 @@ namespace ImageProcessingHelper {
 
     Image crop(Image img, int width, int height);
 
-    void filter_cc(Image &image, const int minSize, std::string name);
+    void filter_cc(Image &image, const int& minSize, std::string name);
 
     std::vector<std::array<int, 2>> get_cc(Image& image, int startX, int startY);
 
