@@ -62,7 +62,7 @@ void ImageProcessingHelper::detect_subjects(std::vector<Image> &imageSubjects, I
 		}
 	}
 	for (int i = 0; i < imageSubjects.size(); ++i) {
-		imageSubjects[i].write("../out/pinked" + std::to_string(i) + ".jpg");
+		//imageSubjects[i].write("../out/pinked" + std::to_string(i) + ".jpg");
 		ImageProcessingHelper::filter_cc(imageSubjects[i], min_size_connexe, std::to_string(i) + ".jpg");
 	}
 }
