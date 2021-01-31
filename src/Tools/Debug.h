@@ -8,8 +8,11 @@
 #include <string>
 
 namespace Debug {
+	/**
+ 	* Display str in console
+ 	* @param str std::string to display
+ 	*/
 	void log(const std::string &str);
-	//void Exception(const std::string& str);
 };
 
 
