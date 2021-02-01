@@ -17,11 +17,12 @@ void UserInterface::start(){
 
 void UserInterface::setUp_images(){
     //Set up images
-    cout << "Veuillez entrer le nom du dossier contenant toutes les images à traiter" << endl;
+    cout << "Veuillez entrer le chemin du dossier contenant toutes les images a traiter" << endl;
+    cout << "(Le dossier doit uniquement contenir des images)" << endl;
     getline (cin, _name_folder_in);
     while(!FileHelper::exist(_name_folder_in) && _name_folder_in!=""){
         cout << "Ce dossier n'existe pas..." << endl;
-        cout << "Veuillez entrer le nom du dossier contenant toutes les images à traiter ET QUI EXISTE CETTE FOIS CI" << endl;
+        cout << "Veuillez entrer le nom du dossier contenant toutes les images a traiter ET QUI EXISTE CETTE FOIS CI" << endl;
         getline (cin, _name_folder_in);
     }
     if(_name_folder_in==""){
@@ -47,9 +48,9 @@ void UserInterface::settings() {
     while(index!=1){
         cout << "Que souhaitez-vous faire?" << endl;
         cout << "1 - Lancer le programme" << endl;
-        cout << "2 - Modifier la tolérance (Actuellement : " + to_string(_tolerance) + ")" << endl;
+        cout << "2 - Modifier la tolerance (Actuellement : " + to_string(_tolerance) + ")" << endl;
         cout << "3 - Modifier la taille minimum d'un composant connexe (Actuellement : " + to_string(_min_size_connexe) + ")" << endl;
-        cout << "4 - Activer/Désactiver le Fading" << endl;
+        cout << "4 - Activer/Desactiver le Fading" << endl;
         getline (cin, tmp);
         if (tmp==""){
             tmp="1";
@@ -72,7 +73,7 @@ void UserInterface::settings() {
 }
 
 void UserInterface::image_processing(){
-    cout << "Dans quel dossier voulez-vous exporter le résultat?" << endl;
+    cout << "Dans quel dossier voulez-vous exporter le resultat?" << endl;
     getline (cin, _name_folder_out);
     if(_name_folder_out==""){
         _name_folder_out="out";
@@ -83,13 +84,19 @@ void UserInterface::image_processing(){
 
     Debug::log("begin : median_images");
     Image median = ImageProcessingHelper::median_images(_images);
-    median.write("../out/median.jpg");
+    if(_images[0].getChannel()==3)
+        median.write("../"+_name_folder_out+"/median.jpg");
+    else if(_images[0].getChannel()==4)
+        median.write("../"+_name_folder_out+"/median.png");
     Debug::log("end : median_images");
     Debug::log("begin : add_subjects");
     ImageProcessingHelper::detect_subjects(_images, median, _tolerance, _min_size_connexe);
     Debug::log("end : add_subjects");
     Debug::log("begin : merge_diff_images");
-    ImageProcessingHelper::merge_diff_images(_images, median).write("../"+_name_folder_out+"/full.jpg");
+    if(_images[0].getChannel()==3)
+        ImageProcessingHelper::merge_diff_images(_images, median, _fading_state).write("../"+_name_folder_out+"/full.jpg");
+    else if(_images[0].getChannel()==4)
+        ImageProcessingHelper::merge_diff_images(_images, median, _fading_state).write("../"+_name_folder_out+"/full.png");
     Debug::log("end : merge_diff_images");
 
 }
@@ -114,7 +121,7 @@ void UserInterface::enter_fading(){
         cout << "Activer le fading?   y/n " << endl;
         getline (cin, tmp);
         if(tmp=="y" || tmp=="Y" || tmp=="yes"){
-            cout << "Effet croissant ou décroissant?" << endl;
+            /*cout << "Effet croissant ou décroissant?" << endl;
             cout << "1 - Croissant" << endl;
             cout << "2 - Décroissant" << endl;
             getline (cin, tmp);
@@ -123,11 +130,12 @@ void UserInterface::enter_fading(){
             }
             else if (stoi(tmp) == 2){
                 _fading_state=2;
-            }
+            }*/
+            _fading_state=1;
         }
     }
     else{
-        cout << "Désactiver le fading?   y/n " << endl;
+        cout << "Desactiver le fading?   y/n " << endl;
         getline (cin, tmp);
         if(tmp=="y" || tmp=="Y" || tmp=="yes"){
             _fading_state=0;
