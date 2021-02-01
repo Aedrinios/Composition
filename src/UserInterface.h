@@ -22,6 +22,8 @@ private:
     int _fading_state = 0;
     int _step = 0;
 	int mergeType = 1;
+    float _distance = 0;
+
 public:
     void start();
     void setUp_images();
@@ -34,6 +36,8 @@ public:
     std::vector<Image> getImages();
 
     void enter_step();
+
+    void enter_distance();
 };
 
 

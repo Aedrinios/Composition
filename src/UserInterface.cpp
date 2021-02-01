@@ -64,6 +64,8 @@ void UserInterface::settings() {
 		std::cout << "4 - Activer/Désactiver le Fading" << std::endl;
 		std::cout << "5 - Activer/Désactiver la step" << std::endl;
 		std::cout << "6 - Modifier le type de fusion d'image (" << mergeType << ")" << std::endl;
+		std::cout << "7 - Activer/Désactiver la distance" << endl;
+
 		getline(std::cin, tmp);
 		if (tmp.empty()) {
 			tmp = "1";
@@ -85,22 +87,43 @@ void UserInterface::settings() {
 			case 6 :
 				enter_merge_diff();
 				break;
+			case 7 :
+                enter_distance();
+				break;
 			default:
 				break;
 		}
 	}
 }
 
-void UserInterface::image_processing() {
-	std::cout << "Dans quel dossier voulez-vous exporter le résultat?" << " (" << _name_folder_out << ")" << std::endl;
-	getline(std::cin, _name_folder_out);
-	if (_name_folder_out.empty()) {
-		_name_folder_out = "out";
-	}
-	if (!FileHelper::exist(_name_folder_out)) {
-		FileHelper::createDirectory(_name_folder_out);
-	}
-	std::cout << mergeType<< std::endl;
+void UserInterface::image_processing(){
+    cout << "Dans quel dossier voulez-vous exporter le résultat?" << endl;
+    getline (cin, _name_folder_out);
+    if(_name_folder_out==""){
+        _name_folder_out="../out";
+    }
+    if (!FileHelper::exist(_name_folder_out)){
+        FileHelper::createDirectory(_name_folder_out);
+    }
+
+    Debug::log("begin : median_images");
+    Image median = ImageProcessingHelper::median_images(_images);
+    median.write(_name_folder_out + "/median.jpg");
+    Debug::log("end : median_images");
+    Debug::log("begin : add_subjects");
+
+    ImageProcessingHelper::detect_subjects(_images, median, _tolerance, _min_size_connexe);
+    Debug::log("end : add_subjects");
+    Debug::log("begin : merge_diff_images");
+    if(_distance > 0.0f){
+        ImageProcessingHelper::merge_diff_images_distance(_images, median, _distance).write(_name_folder_out+"/full_distance.jpg");
+    }
+    ImageProcessingHelper::merge_diff_images(_images, median).write(_name_folder_out+"/full.jpg");
+
+    Debug::log("end : merge_diff_images");
+    Debug::log("begin : merge_diff_images_overlap");
+   // ImageProcessingHelper::merge_diff_images_overlap(_images, median).write("../"+_name_folder_out+"/full-overlap.jpg");
+    Debug::log("end : merge_diff_images_overlap");
 
 	FileHelper::clearDirectory("_name_folder_out");
 	Debug::log("begin : median_images");
@@ -122,6 +145,7 @@ void UserInterface::image_processing() {
 	}
 	if (mergeType == 3 || mergeType == 4) {
 		Debug::log("begin : merge_diff_images_distance");
+		ImageProcessingHelper::merge_diff_images_distance(_images, median, _distance).write(_name_folder_out + "/full-distance.jpg");
 		Debug::log("end : merge_diff_images_distance");
 	}
 
@@ -196,6 +220,13 @@ void UserInterface::enter_merge_diff() {
 
 }
 
-std::vector<Image> UserInterface::getImages() {
-	return _images;
+void UserInterface::enter_distance(){
+    string tmp;
+    cout << "Distance entre les sujets" << endl;
+    getline (cin, tmp);
+    _distance = stoi(tmp);
+}
+
+vector<Image> UserInterface::getImages(){
+    return _images;
 }

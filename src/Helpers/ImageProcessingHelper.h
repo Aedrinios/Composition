@@ -37,6 +37,7 @@ namespace ImageProcessingHelper {
     int cc_size(Image &image, int startX, int startY);
 
     void cc_remove(Image &image, int startX, int startY);
+
 	/**
 	 * Calculate if point is inside rectangle
 	 * @param point to test
@@ -45,6 +46,9 @@ namespace ImageProcessingHelper {
 	 * @return true is inside false is outside
 	 */
     bool point_inside_rectangle(std::array<int, 2> point, std::array<int, 2> rect_topLeft,std::array<int, 2> rect_rightBottom );
+
+    Image merge_diff_images_distance(std::vector<Image> imageSubjects, Image background, float distance);
+
 };
 
 
