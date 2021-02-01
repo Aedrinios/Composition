@@ -60,38 +60,38 @@ bool Image::write(const std::string &filename) {
 std::vector<int> Image::getPixel(int x, int y) const {
 	std::vector<int> pixel;
 	if (channel == 1) {
-		pixel.push_back(data[(x * 3 * width) + (y * 3)]);
+		pixel.push_back(data[(x * 1 * width) + (y * 1)]);
 	} else if (channel == 2) {
-		pixel.push_back(data[(x * 3 * width) + (y * 3)]);
-		pixel.push_back(data[(x * 3 * width) + (y * 3) + 1]);
+		pixel.push_back(data[(x * 2 * width) + (y * 2)]);
+		pixel.push_back(data[(x * 2 * width) + (y * 2) + 1]);
 	} else if (channel == 3) {
 		pixel.push_back(data[(x * 3 * width) + (y * 3)]);
 		pixel.push_back(data[(x * 3 * width) + (y * 3) + 1]);
 		pixel.push_back(data[(x * 3 * width) + (y * 3) + 2]);
 	} else if (channel == 4) {
-		pixel.push_back(data[(x * 3 * width) + (y * 3)]);
-		pixel.push_back(data[(x * 3 * width) + (y * 3) + 1]);
-		pixel.push_back(data[(x * 3 * width) + (y * 3) + 2]);
-		pixel.push_back(data[(x * 3 * width) + (y * 3) + 3]);
+		pixel.push_back(data[(x * 4 * width) + (y * 4)]);
+		pixel.push_back(data[(x * 4 * width) + (y * 4) + 1]);
+		pixel.push_back(data[(x * 4 * width) + (y * 4) + 2]);
+		pixel.push_back(data[(x * 4 * width) + (y * 4) + 3]);
 	}
 	return pixel;
 }
 
 void Image::setPixel(int x, int y, std::vector<int> colors) {
 	if (channel == 1) {
-		data[(x * 3 * width) + (y * 3)] = colors[0];
+		data[(x * 1 * width) + (y * 1)] = colors[0];
 	} else if (channel == 2) {
-		data[(x * 3 * width) + (y * 3)] = colors[0];
-		data[(x * 3 * width) + (y * 3) + 1] = colors[1];
+		data[(x * 2 * width) + (y * 2)] = colors[0];
+		data[(x * 2 * width) + (y * 2) + 1] = colors[1];
 	} else if (channel == 3) {
 		data[(x * 3 * width) + (y * 3)] = colors[0];
 		data[(x * 3 * width) + (y * 3) + 1] = colors[1];
 		data[(x * 3 * width) + (y * 3) + 2] = colors[2];
 	} else if (channel == 4) {
-		data[(x * 3 * width) + (y * 3)] = colors[0];
-		data[(x * 3 * width) + (y * 3) + 1] = colors[1];
-		data[(x * 3 * width) + (y * 3) + 2] = colors[2];
-		data[(x * 3 * width) + (y * 3) + 3] = colors[3];
+		data[(x * 4 * width) + (y * 4)] = colors[0];
+		data[(x * 4 * width) + (y * 4) + 1] = colors[1];
+		data[(x * 4 * width) + (y * 4) + 2] = colors[2];
+		data[(x * 4 * width) + (y * 4) + 3] = colors[3];
 	}
 }
 

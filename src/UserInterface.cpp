@@ -107,14 +107,20 @@ void UserInterface::image_processing() {
     FileHelper::clearDirectory("_name_folder_out");
     Debug::log("begin : median_images");
     Image median = ImageProcessingHelper::median_images(_images);
-    median.write(_name_folder_out + "/median.jpg");
+    if(_images[0].getChannel()==3)
+        median.write("../"+_name_folder_out+"/median.jpg");
+    else if(_images[0].getChannel()==4)
+        median.write("../"+_name_folder_out+"/median.png");
     Debug::log("end : median_images");
     Debug::log("begin : add_subjects");
     ImageProcessingHelper::detect_subjects(_images, median, _tolerance, _min_size_connexe);
     Debug::log("end : add_subjects");
     if (mergeType == 1 || mergeType == 4) {
         Debug::log("begin : merge_diff_images");
-        ImageProcessingHelper::merge_diff_images(_images, median).write(_name_folder_out + "/full.jpg");
+        if(_images[0].getChannel()==3)
+            ImageProcessingHelper::merge_diff_images(_images, median, _fading_state).write("../"+_name_folder_out+"/full.jpg");
+        else if(_images[0].getChannel()==4)
+            ImageProcessingHelper::merge_diff_images(_images, median, _fading_state).write("../"+_name_folder_out+"/full.png");
         Debug::log("end : merge_diff_images");
     }
     if (mergeType == 2 || mergeType == 4) {
@@ -150,7 +156,7 @@ void UserInterface::enter_fading() {
 		std::cout << "Activer le fading?   y/n " << std::endl;
 		getline(std::cin, tmp);
 		if (tmp == "y" || tmp == "Y" || tmp == "yes") {
-			std::cout << "Effet croissant ou décroissant?" << std::endl;
+			/*std::cout << "Effet croissant ou décroissant?" << std::endl;
 			std::cout << "1 - Croissant" << std::endl;
 			std::cout << "2 - Décroissant" << std::endl;
 			getline(std::cin, tmp);
@@ -158,7 +164,8 @@ void UserInterface::enter_fading() {
 				_fading_state = 1;
 			} else if (stoi(tmp) == 2) {
 				_fading_state = 2;
-			}
+			}*/
+            _fading_state=1;
 		}
 	} else {
 		std::cout << "Désactiver le fading?   y/n " << std::endl;

@@ -18,13 +18,15 @@ namespace ImageProcessingHelper {
      * @param images
      * @return
      */
+    static std::vector<int> pinkRGBA{255, 20, 147, 255};
+
     Image median_images(std::vector<Image> images);
 
     void detect_subjects(std::vector<Image> &imageSubjects, Image background, int tolerance, int min_size_connexe);
 
     bool calculate_tolerance(std::vector<int> pixelColor, std::vector<int> pixelRef, int tolerance);
 
-    Image merge_diff_images(std::vector<Image> imageSubjects, Image background);
+    Image merge_diff_images(std::vector<Image> imageSubjects, Image background, int fading_state);
 
 	Image merge_diff_images_overlap(std::vector<Image> imageSubjects, Image background);
 
@@ -33,6 +35,8 @@ namespace ImageProcessingHelper {
     void filter_cc(Image &image, const int& minSize, std::string name);
 
     std::vector<std::array<int, 2>> get_cc(Image& image, int startX, int startY);
+
+    std::vector<std::array<int, 2>> get_ccRGBA(Image& image, int startX, int startY);
 
 	/**
 	 * Calculate if point is inside rectangle
@@ -52,6 +56,9 @@ namespace ImageProcessingHelper {
      */
     Image merge_diff_images_distance(std::vector<Image> imageSubjects, Image background, float distance);
 
+    std::vector<Image> RGBtoRGBA(std::vector<Image> images);
+
+    void fade_cc(Image &image, int fading);
 };
 
 
