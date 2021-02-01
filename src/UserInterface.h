@@ -25,12 +25,33 @@ private:
     float _distance = 0;
 
 public:
+    /**
+     * Start the User Interface
+     */
     void start();
+    /**
+     * Set up the Image vector
+     */
     void setUp_images();
+    /**
+     * Allow to change parameters before image processing
+     */
     void settings();
+    /**
+     * Image processing then export
+     */
     void image_processing();
+    /**
+     * Change Tolerance
+     */
     void enter_tolerance();
+    /**
+     * Change minimum size for connexe composant
+     */
     void enter_size_connexe();
+    /**
+     * Handle Fading
+     */
     void enter_fading();
     void enter_merge_diff();
     std::vector<Image> getImages();

@@ -178,10 +178,7 @@ void ImageProcessingHelper::filter_cc(Image &image, const int &minSize, std::str
     //image.write("../out/filter_cc_" + name);
 }
 
-
-//Image
-Image ImageProcessingHelper::merge_diff_images_distance(std::vector<Image> imageSubjects, Image background,
-                                                        float distance) {
+Image ImageProcessingHelper::merge_diff_images_distance(std::vector<Image> imageSubjects, Image background, float distance) {
     int width = background.getWidth();
     int height = background.getHeight();
     std::array<int, 2> image_midpoint{};
@@ -255,39 +252,7 @@ Image ImageProcessingHelper::crop(Image img, int width, int height) {
     return ni;
 }
 
-/*void ImageProcessingHelper::filter_cc(Image &image, const int &minSize, std::string name) {
-    std::vector<std::array<int, 2> > cc;
-    std::vector<std::array<int, 2> > ccMax;
-    Image copy = image;
-    for (int x = 0; x < image.getHeight(); ++x) {
-        for (int y = 0; y < image.getWidth(); ++y) {
-            if (image.getPixel(x, y) != ImageProcessingHelper::pink) {
-                cc = ImageProcessingHelper::get_cc(copy, x, y);
-                if (cc.size() > ccMax.size()) {
-                    ccMax = cc;
-                }
-                if (cc.size() < minSize) {
-                    for (int i = 0; i < cc.size(); ++i) {
-                        image.setPixel(cc[i][0], cc[i][1], ImageProcessingHelper::pink);
-                    }
-                }
-            }
-        }
-    }
-    std::vector<int> x;
-    std::vector<int> y;
-    for (int i = 0; i < ccMax.size(); ++i) {
-        x.push_back(ccMax[i][0]);
-        y.push_back(ccMax[i][1]);
-    }
-    image.setLeftTop({*std::min_element(std::begin(x), std::end(x)),
-                      *std::min_element(std::begin(y), std::end(y))});
 
-    image.setRightBottom({*std::max_element(std::begin(x), std::end(x)),
-                          *std::max_element(std::begin(y), std::end(y))});
-
-    //image.write("../out/filter_cc_" + name);
-}*/
 
 std::vector<std::array<int, 2>> ImageProcessingHelper::get_cc(Image &image, int startX, int startY) {
     int index = 0;
@@ -466,21 +431,4 @@ std::vector<std::array<int, 2>> ImageProcessingHelper::get_ccRGBA(Image &image, 
         index++;
     }
     return ccStartPosList;
-}
-
-void ImageProcessingHelper::fade_cc(Image &image, int fading){
-    if(image.getChannel()==4){
-        int width = image.getWidth();
-        int height = image.getHeight();
-        for (int x = 0; x < height; x++) {
-            for (int y = 0; y < width; y++) {
-                std::vector<int> Pixel = image.getPixel(x, y);
-                Pixel[3]=125;
-                image.setPixel(x, y, Pixel);
-            }
-        }
-    }
-    else{
-        std::cout << "L'image n'est pas RGBA" << std::endl;
-    }
 }

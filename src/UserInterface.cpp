@@ -18,13 +18,13 @@ void UserInterface::start() {
 
 void UserInterface::setUp_images() {
 	//Set up images
-	std::cout << "Veuillez entrer le nom du dossier contenant toutes les images à traiter (" << _name_folder_in << ")"
+	std::cout << "Veuillez entrer le nom du dossier contenant toutes les images a traiter (" << _name_folder_in << ")"
 	          << std::endl;
 	getline(std::cin, _name_folder_in);
 	while (!FileHelper::exist(_name_folder_in) && !_name_folder_in.empty()) {
 		std::cout << "Ce dossier n'existe pas..." << std::endl;
 		std::cout
-				<< "Veuillez entrer le nom du dossier contenant toutes les images à traiter ET QUI EXISTE CETTE FOIS CI"
+				<< "Veuillez entrer le nom du dossier contenant toutes les images a traiter ET QUI EXISTE CETTE FOIS CI"
 				<< " (resources/images/game)"
 				<< std::endl;
 		getline(std::cin, _name_folder_in);
@@ -58,11 +58,11 @@ void UserInterface::settings() {
 	while (index != 1) {
 		std::cout << "Que souhaitez-vous faire? (1)" << std::endl;
 		std::cout << "1 - Lancer le programme" << std::endl;
-		std::cout << "2 - Modifier la tolérance (Actuellement : " + std::to_string(_tolerance) + ")" << std::endl;
+		std::cout << "2 - Modifier la tolerance (Actuellement : " + std::to_string(_tolerance) + ")" << std::endl;
 		std::cout << "3 - Modifier la taille minimum d'un composant connexe (Actuellement : " +
 		             std::to_string(_min_size_connexe) + ")" << std::endl;
-		std::cout << "4 - Activer/Désactiver le Fading" << std::endl;
-		std::cout << "5 - Activer/Désactiver la step" << std::endl;
+		std::cout << "4 - Activer/Desactiver le Fading" << std::endl;
+		std::cout << "5 - Activer/Desactiver la step" << std::endl;
 		std::cout << "6 - Modifier le type de fusion d'image (" << mergeType << ")" << std::endl;
 
 
@@ -94,7 +94,7 @@ void UserInterface::settings() {
 }
 
 void UserInterface::image_processing() {
-    std::cout << "Dans quel dossier voulez-vous exporter le résultat?" << " (" << _name_folder_out << ")" << std::endl;
+    std::cout << "Dans quel dossier voulez-vous exporter le resultat?" << " (" << _name_folder_out << ")" << std::endl;
     getline(std::cin, _name_folder_out);
     if (_name_folder_out.empty()) {
         _name_folder_out = "out";
@@ -156,19 +156,11 @@ void UserInterface::enter_fading() {
 		std::cout << "Activer le fading?   y/n " << std::endl;
 		getline(std::cin, tmp);
 		if (tmp == "y" || tmp == "Y" || tmp == "yes") {
-			/*std::cout << "Effet croissant ou décroissant?" << std::endl;
-			std::cout << "1 - Croissant" << std::endl;
-			std::cout << "2 - Décroissant" << std::endl;
-			getline(std::cin, tmp);
-			if (StringHelper::StringToInt(tmp) == 1) {
-				_fading_state = 1;
-			} else if (StringHelper::StringToInt(tmp) == 2) {
-				_fading_state = 2;
-			}*/
+
             _fading_state=1;
 		}
 	} else {
-		std::cout << "Désactiver le fading?   y/n " << std::endl;
+		std::cout << "Desactiver le fading?   y/n " << std::endl;
 		getline(std::cin, tmp);
 		if (tmp == "y" || tmp == "Y" || tmp == "yes") {
 			_fading_state = 0;
