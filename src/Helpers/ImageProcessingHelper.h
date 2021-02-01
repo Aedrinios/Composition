@@ -7,29 +7,45 @@
 
 #include "Image.h"
 #include <vector>
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 #include <array>
 
 namespace ImageProcessingHelper {
     static std::vector<int> pink{255, 20, 147};
-    /**
-     *
-     * @param images
-     * @return
-     */
+
     static std::vector<int> pinkRGBA{255, 20, 147, 255};
 
     Image median_images(std::vector<Image> images);
 
+    /**
+     * Isolate subjects from the image
+     * @param imageSubjects image to find subject
+     * @param background result of median_images
+     * @param tolerance color variation tolerance
+     * @param min_size_connexe  Minimum size of connected components
+     */
     void detect_subjects(std::vector<Image> &imageSubjects, Image background, int tolerance, int min_size_connexe);
 
     bool calculate_tolerance(std::vector<int> pixelColor, std::vector<int> pixelRef, int tolerance);
 
     Image merge_diff_images(std::vector<Image> imageSubjects, Image background, int fading_state);
 
+    /**
+     * Create an image that removes the overlap
+     * @param imageSubjects vector of images  to check
+     * @param background
+     * @return image with image where the subjects do not overlap
+     */
 	Image merge_diff_images_overlap(std::vector<Image> imageSubjects, Image background);
 
+	/**
+	 * Crop image on width & height
+	 * @param img to crop
+	 * @param width
+	 * @param height
+	 * @return cropped image
+	 */
     Image crop(Image img, int width, int height);
 
     void filter_cc(Image &image, const int& minSize, std::string name);

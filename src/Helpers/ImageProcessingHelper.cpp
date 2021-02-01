@@ -3,7 +3,6 @@
 //
 
 #include "ImageProcessingHelper.h"
-#include "Tools/Debug.h"
 #include <string>
 #include <cmath>
 #include <iostream>
@@ -15,14 +14,11 @@ Image ImageProcessingHelper::median_images(std::vector<Image> images) {
     for (int i = 0; i < images.size(); ++i) {
         if (images[i].getHeight() != height || images[i].getWidth() != width) {
             images[i] = ImageProcessingHelper::crop(images[i], width, height);
-            Debug::log("Cropped ?");
         }
     }
     std::vector<int> red_median;
     std::vector<int> green_median;
     std::vector<int> blue_median;
-    Debug::log(std::to_string(images[0].getWidth()));
-    Debug::log(std::to_string(resImg.getWidth()));
     std::vector<int> currentPixel;
     std::vector<int> resultPixel;
     for (int i = 0; i < height; i++) {
@@ -184,7 +180,8 @@ void ImageProcessingHelper::filter_cc(Image &image, const int &minSize, std::str
 
 
 //Image
-ImageProcessingHelper::merge_diff_images_distance(std::vector<Image> imageSubjects, Image background, float distance) {
+Image ImageProcessingHelper::merge_diff_images_distance(std::vector<Image> imageSubjects, Image background,
+                                                        float distance) {
     int width = background.getWidth();
     int height = background.getHeight();
     std::array<int, 2> image_midpoint{};
@@ -203,7 +200,6 @@ ImageProcessingHelper::merge_diff_images_distance(std::vector<Image> imageSubjec
                                cleanImageSubjects[j].getRightBottom()[1]) / 2};
             float current_distance = std::sqrt(std::pow(clean_midpoint[0] - image_midpoint[0], 2) +
                                                std::pow(clean_midpoint[1] - image_midpoint[1], 2));
-            Debug::log(std::to_string(current_distance));
             if (current_distance < distance) {
                 canAdd = false;
                 break;

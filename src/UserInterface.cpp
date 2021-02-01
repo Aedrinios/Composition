@@ -70,7 +70,7 @@ void UserInterface::settings() {
 		if (tmp.empty()) {
 			tmp = "1";
 		}
-		index = stoi(tmp);
+		index = StringHelper::StringToInt(tmp);
 		switch (index) {
 			case 2 :
 				enter_tolerance();
@@ -118,9 +118,9 @@ void UserInterface::image_processing() {
     if (mergeType == 1 || mergeType == 4) {
         Debug::log("begin : merge_diff_images");
         if(_images[0].getChannel()==3)
-            ImageProcessingHelper::merge_diff_images(_images, median, _fading_state).write("../"+_name_folder_out+"/full.jpg");
+            ImageProcessingHelper::merge_diff_images(_images, median, _fading_state).write(_name_folder_out+"/full.jpg");
         else if(_images[0].getChannel()==4)
-            ImageProcessingHelper::merge_diff_images(_images, median, _fading_state).write("../"+_name_folder_out+"/full.png");
+            ImageProcessingHelper::merge_diff_images(_images, median, _fading_state).write(_name_folder_out+"/full.png");
         Debug::log("end : merge_diff_images");
     }
     if (mergeType == 2 || mergeType == 4) {
@@ -140,14 +140,14 @@ void UserInterface::enter_tolerance() {
 	std::string tmp;
 	std::cout << "Tolerance pour le traitement du background (%)" << std::endl;
 	getline(std::cin, tmp);
-	_tolerance = stoi(tmp);
+	_tolerance = StringHelper::StringToInt(tmp);
 }
 
 void UserInterface::enter_size_connexe() {
 	std::string tmp;
 	std::cout << "Taille minimum d'une composante connexe (nombre de pixel)" << std::endl;
 	getline(std::cin, tmp);
-	_min_size_connexe = stoi(tmp);
+	_min_size_connexe = StringHelper::StringToInt(tmp);
 }
 
 void UserInterface::enter_fading() {
@@ -160,9 +160,9 @@ void UserInterface::enter_fading() {
 			std::cout << "1 - Croissant" << std::endl;
 			std::cout << "2 - Décroissant" << std::endl;
 			getline(std::cin, tmp);
-			if (stoi(tmp) == 1) {
+			if (StringHelper::StringToInt(tmp) == 1) {
 				_fading_state = 1;
-			} else if (stoi(tmp) == 2) {
+			} else if (StringHelper::StringToInt(tmp) == 2) {
 				_fading_state = 2;
 			}*/
             _fading_state=1;
@@ -180,7 +180,7 @@ void UserInterface::enter_step() {
 	std::string tmp;
 	std::cout << "Nombre de step" << std::endl;
 	getline(std::cin, tmp);
-	_step = stoi(tmp);
+	_step = StringHelper::StringToInt(tmp);
 }
 
 void UserInterface::enter_merge_diff() {
@@ -211,7 +211,7 @@ void UserInterface::enter_distance(){
     std::string tmp;
     std::cout << "Distance entre les sujets" << std::endl;
     getline (std::cin, tmp);
-    _distance = stoi(tmp);
+    _distance = StringHelper::StringToInt(tmp);
 }
 
 std::vector<Image> UserInterface::getImages(){

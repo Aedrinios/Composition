@@ -5,7 +5,6 @@
 #ifndef COMPOSITION_IMAGETYPE_H
 #define COMPOSITION_IMAGETYPE_H
 
-#include <string>
 
 enum class ImageType {
 	JPG,
