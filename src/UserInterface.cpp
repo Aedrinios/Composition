@@ -111,6 +111,9 @@ void UserInterface::image_processing(){
         ImageProcessingHelper::merge_diff_images(_images, median).write(_name_folder_out+"/full.jpg");
     }
     Debug::log("end : merge_diff_images");
+    Debug::log("begin : merge_diff_images_overlap");
+    ImageProcessingHelper::merge_diff_images_overlap(_images, median).write("../"+_name_folder_out+"/full-overlap.jpg");
+    Debug::log("end : merge_diff_images_overlap");
 
 }
 

@@ -131,6 +131,27 @@ Image ImageProcessingHelper::merge_diff_images_distance(std::vector<Image> image
     return background;
 }
 
+Image ImageProcessingHelper::merge_diff_images_overlap(std::vector<Image> imageSubjects, Image background) {
+	std::vector<Image> addedImage;
+	int width = background.getWidth();
+	int height = background.getHeight();
+	for (int k = 0; k < imageSubjects.size(); k++) {
+		if (addedImage.empty() || imageSubjects[k].canDraw(addedImage)) {
+			addedImage.push_back( imageSubjects[k]);
+			for (int x = 0; x < height; x++) {
+				for (int y = 0; y < width; y++) {
+					std::vector<int> subjectPixel = imageSubjects[k].getPixel(x, y);
+					std::vector<int> bgPixel = background.getPixel(x, y);
+					if (subjectPixel != ImageProcessingHelper::pink) {
+						background.setPixel(x, y, subjectPixel);
+					}
+				}
+			}
+		}
+	}
+	return background;
+}
+
 Image ImageProcessingHelper::crop(Image img, int width, int height) {
     Image ni(width, height, img.getChannel());
     for (int x = 0; x < height; ++x) {
@@ -142,37 +163,37 @@ Image ImageProcessingHelper::crop(Image img, int width, int height) {
 }
 
 void ImageProcessingHelper::filter_cc(Image &image, const int &minSize, std::string name) {
-    std::vector<std::array<int, 2> > cc;
-    std::vector<std::array<int, 2> > ccMax;
-    Image copy = image;
-    for (int x = 0; x < image.getHeight(); ++x) {
-        for (int y = 0; y < image.getWidth(); ++y) {
-            if (image.getPixel(x, y) != ImageProcessingHelper::pink) {
-                cc = ImageProcessingHelper::get_cc(copy, x, y);
-                if (cc.size() > ccMax.size()) {
-                    ccMax = cc;
-                }
-                if (cc.size() < minSize) {
-                    for (int i = 0; i < cc.size(); ++i) {
-                        image.setPixel(cc[i][0], cc[i][1], ImageProcessingHelper::pink);
-                    }
-                }
-            }
-        }
-    }
-    std::vector<int> x;
-    std::vector<int> y;
-    for (int i = 0; i < ccMax.size(); ++i) {
-        x.push_back(ccMax[i][0]);
-        y.push_back(ccMax[i][1]);
-    }
-    image.setLeftTop({*std::min_element(std::begin(x), std::end(x)),
-                      *std::min_element(std::begin(y), std::end(y))});
+	std::vector<std::array<int, 2> > cc;
+	std::vector<std::array<int, 2> > ccMax;
+	Image copy = image;
+	for (int x = 0; x < image.getHeight(); ++x) {
+		for (int y = 0; y < image.getWidth(); ++y) {
+			if (image.getPixel(x, y) != ImageProcessingHelper::pink) {
+				cc = ImageProcessingHelper::get_cc(copy, x, y);
+				if (cc.size() > ccMax.size()) {
+					ccMax = cc;
+				}
+				if (cc.size() < minSize) {
+					for (int i = 0; i < cc.size(); ++i) {
+						image.setPixel(cc[i][0], cc[i][1], ImageProcessingHelper::pink);
+					}
+				}
+			}
+		}
+	}
+	std::vector<int> x;
+	std::vector<int> y;
+	for (int i = 0; i < ccMax.size(); ++i) {
+		x.push_back(ccMax[i][0]);
+		y.push_back(ccMax[i][1]);
+	}
+	image.setLeftTop({*std::min_element(std::begin(x), std::end(x)),
+	                  *std::min_element(std::begin(y), std::end(y))});
 
-    image.setRightBottom({*std::max_element(std::begin(x), std::end(x)),
-                          *std::max_element(std::begin(y), std::end(y))});
+	image.setRightBottom({*std::max_element(std::begin(x), std::end(x)),
+	                      *std::max_element(std::begin(y), std::end(y))});
 
-    //image.write("../out/filter_cc_" + name);
+	//image.write("../out/filter_cc_" + name);
 }
 
 std::vector<std::array<int, 2>> ImageProcessingHelper::get_cc(Image &image, int startX, int startY) {

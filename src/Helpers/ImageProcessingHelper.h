@@ -27,6 +27,8 @@ namespace ImageProcessingHelper {
 
     Image merge_diff_images(std::vector<Image> imageSubjects, Image background);
 
+	Image merge_diff_images_overlap(std::vector<Image> imageSubjects, Image background);
+
     Image crop(Image img, int width, int height);
 
     void filter_cc(Image &image, const int& minSize, std::string name);

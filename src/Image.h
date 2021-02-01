@@ -111,6 +111,7 @@ public:
 	}
 	// End : assessor
 
+	bool canDraw(std::vector<Image>& addedImages);
 };
 
 #endif //COMPOSITION_IMAGE_H
