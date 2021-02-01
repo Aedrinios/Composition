@@ -13,7 +13,6 @@
 
 namespace ImageProcessingHelper {
     static std::vector<int> pink{255, 20, 147};
-
     /**
      *
      * @param images
@@ -38,6 +37,14 @@ namespace ImageProcessingHelper {
     int cc_size(Image &image, int startX, int startY);
 
     void cc_remove(Image &image, int startX, int startY);
+	/**
+	 * Calculate if point is inside rectangle
+	 * @param point to test
+	 * @param rect_topLeft Top left of rectangle
+	 * @param rect_rightBottom Right bottom of rectangle
+	 * @return true is inside false is outside
+	 */
+    bool point_inside_rectangle(std::array<int, 2> point, std::array<int, 2> rect_topLeft,std::array<int, 2> rect_rightBottom );
 };
 
 

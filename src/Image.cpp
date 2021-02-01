@@ -9,6 +9,7 @@
 #include "stb_image_write.h"
 #include "Tools/Debug.h"
 #include "Helpers/StringHelpers.h"
+#include "Helpers/ImageProcessingHelper.h"
 
 Image::Image(const std::string &filename) {
 	if (read(filename)) {
@@ -33,6 +34,7 @@ Image::Image(const Image &img) : Image(img.getWidth(), img.getHeight(), img.getC
 	}
 	leftTop = img.leftTop;
 	rightBottom = img.rightBottom;
+	path = img.path;
 }
 
 Image::~Image() {
@@ -111,10 +113,18 @@ ImageType Image::getImageType(const std::string &filename) {
 }
 
 bool Image::canDraw(std::vector<Image> &addedImages) {
-
-	for (int i = 0; i < addedImages.size(); ++i) {
-		if ((leftTop[0] > addedImages[i].getLeftTop()[0] && rightBottom[0] < addedImages[i].getRightBottom()[0])
-		    && leftTop[1] > addedImages[i].getLeftTop()[1] && rightBottom[1] < addedImages[i].getRightBottom()[1]) {
+	for (auto &addedImage : addedImages) {
+		if (ImageProcessingHelper::point_inside_rectangle(leftTop, addedImage.getLeftTop(),
+		                                                  addedImage.getRightBottom())
+		    || ImageProcessingHelper::point_inside_rectangle(rightBottom, addedImage.getLeftTop(),
+		                                                     addedImage.getRightBottom())
+		    //left Bottom
+		    || ImageProcessingHelper::point_inside_rectangle({leftTop[0], rightBottom[1]},
+		                                                     addedImage.getLeftTop(), addedImage.getRightBottom())
+		    //right top
+		    || ImageProcessingHelper::point_inside_rectangle({rightBottom[0], leftTop[1]},
+		                                                     addedImage.getLeftTop(), addedImage.getRightBottom())
+				) {
 			return false;
 		}
 	}

@@ -11,17 +11,17 @@
 #include <iostream>
 #include <sstream>
 #include <filesystem>
-using namespace std;
 
 class UserInterface {
 private:
-    vector<Image> _images;
-    string _name_folder_in = "resources/images/game";
-    string _name_folder_out = "out";
+    std::vector<Image> _images;
+    std::string _name_folder_in = "resources/images/game";
+    std::string _name_folder_out = "out";
     int _tolerance = 5;
-    int _min_size_connexe = 1500;
+    int _min_size_connexe = 750;
     int _fading_state = 0;
     int _step = 0;
+	int mergeType = 1;
 public:
     void start();
     void setUp_images();
@@ -30,7 +30,8 @@ public:
     void enter_tolerance();
     void enter_size_connexe();
     void enter_fading();
-    vector<Image> getImages();
+    void enter_merge_diff();
+    std::vector<Image> getImages();
 
     void enter_step();
 };
