@@ -13,12 +13,12 @@
 
 namespace ImageProcessingHelper {
     static std::vector<int> pink{255, 20, 147};
+    static std::vector<int> pinkRGBA{255, 20, 147, 255};
     /**
      *
      * @param images
      * @return
      */
-    static std::vector<int> pinkRGBA{255, 20, 147, 255};
 
     Image median_images(std::vector<Image> images);
 
@@ -36,6 +36,13 @@ namespace ImageProcessingHelper {
 
     std::vector<std::array<int, 2>> get_cc(Image& image, int startX, int startY);
 
+    /**
+     * get_cc for RGBA images
+     * @param image
+     * @param startX
+     * @param startY
+     * @return
+     */
     std::vector<std::array<int, 2>> get_ccRGBA(Image& image, int startX, int startY);
 
 	/**
@@ -56,9 +63,12 @@ namespace ImageProcessingHelper {
      */
     Image merge_diff_images_distance(std::vector<Image> imageSubjects, Image background, float distance);
 
+    /**
+     * Convert RGB image to RGBA
+     * @param images
+     * @return
+     */
     std::vector<Image> RGBtoRGBA(std::vector<Image> images);
-
-    void fade_cc(Image &image, int fading);
 };
 
 
