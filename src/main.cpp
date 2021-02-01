@@ -14,7 +14,6 @@ using namespace std;
 int main() {
 	std::time_t start = time(0);
 
-	FileHelper::clearDirectory("../out");
 
  	UserInterface UI;
     UI.start();
