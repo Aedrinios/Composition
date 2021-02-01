@@ -96,6 +96,26 @@ Image ImageProcessingHelper::merge_diff_images(std::vector<Image> imageSubjects,
     return background;
 }
 
+Image ImageProcessingHelper::merge_diff_images_overlap(std::vector<Image> imageSubjects, Image background) {
+	std::vector<Image> addedImage;
+	int width = background.getWidth();
+	int height = background.getHeight();
+	for (int k = 0; k < imageSubjects.size(); k++) {
+		if (addedImage.empty() || imageSubjects[k].canDraw(addedImage)) {
+			addedImage.push_back( imageSubjects[k]);
+			for (int x = 0; x < height; x++) {
+				for (int y = 0; y < width; y++) {
+					std::vector<int> subjectPixel = imageSubjects[k].getPixel(x, y);
+					std::vector<int> bgPixel = background.getPixel(x, y);
+					if (subjectPixel != ImageProcessingHelper::pink) {
+						background.setPixel(x, y, subjectPixel);
+					}
+				}
+			}
+		}
+	}
+	return background;
+}
 Image ImageProcessingHelper::crop(Image img, int width, int height) {
     Image ni(width, height, img.getChannel());
     for (int x = 0; x < height; ++x) {
@@ -127,7 +147,6 @@ void ImageProcessingHelper::filter_cc(Image &image, const int &minSize, std::str
 	}
 	std::vector<int> x;
 	std::vector<int> y;
-	int xMax, xMin, yMax, yMin = 0;
 	for (int i = 0; i < ccMax.size(); ++i) {
 		x.push_back(ccMax[i][0]);
 		y.push_back(ccMax[i][1]);

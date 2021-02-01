@@ -26,10 +26,13 @@ Image::Image(int w, int h, int c) : width(w), height(h), channel(c) {
 }
 
 Image::Image(const Image &img) : Image(img.getWidth(), img.getHeight(), img.getChannel()) {
+
 	data = new uint8_t[img.getSize()];
 	for (int i = 0; i < img.getSize(); ++i) {
 		data[i] = img.getData()[i];
 	}
+	leftTop = img.leftTop;
+	rightBottom = img.rightBottom;
 }
 
 Image::~Image() {
@@ -105,6 +108,17 @@ ImageType Image::getImageType(const std::string &filename) {
 		Debug::log("Can not find ext of " + filename);
 	}
 	return ImageType::PNG;
+}
+
+bool Image::canDraw(std::vector<Image> &addedImages) {
+
+	for (int i = 0; i < addedImages.size(); ++i) {
+		if ((leftTop[0] > addedImages[i].getLeftTop()[0] && rightBottom[0] < addedImages[i].getRightBottom()[0])
+		    && leftTop[1] > addedImages[i].getLeftTop()[1] && rightBottom[1] < addedImages[i].getRightBottom()[1]) {
+			return false;
+		}
+	}
+	return true;
 }
 
 
