@@ -98,7 +98,7 @@ bool ImageProcessingHelper::calculate_tolerance(std::vector<int> pixelColor, std
 	return true;
 }
 
-Image ImageProcessingHelper::merge_diff_images(std::vector<Image> imageSubjects, Image background, int fading_state) {
+Image ImageProcessingHelper::merge_diff_images(std::vector<Image> imageSubjects, Image background) {
 	int width = background.getWidth();
 	int height = background.getHeight();
 	int size = imageSubjects.size();
@@ -110,21 +110,7 @@ Image ImageProcessingHelper::merge_diff_images(std::vector<Image> imageSubjects,
 				std::vector<int> bgPixel = background.getPixel(x, y);
 				std::vector<int> fadePixel;
 				if (subjectPixel != ImageProcessingHelper::pink && subjectPixel != ImageProcessingHelper::pinkRGBA) {
-				    if(fading_state!=0){
-                        r1=bgPixel[0];r2=subjectPixel[0];
-                        g1=bgPixel[1];g2=subjectPixel[1];
-                        b1=bgPixel[2];b2=subjectPixel[2];
-                        r=int((r1*r2)/255);
-                        g=int((g1*g2)/255);
-                        b=int((b1*b2)/255);
-                        fadePixel.push_back(r); fadePixel.push_back(g); fadePixel.push_back(b);
-                        if(background.getChannel()==4) //if channel 4
-                            fadePixel.push_back(255);
-                        background.setPixel(x, y, fadePixel);
-                    }
-				    else{
-                        background.setPixel(x, y, subjectPixel);
-				    }
+				    background.setPixel(x, y, subjectPixel);
 				}
 			}
 		}
@@ -178,6 +164,35 @@ void ImageProcessingHelper::filter_cc(Image &image, const int &minSize) {
 
     image.setRightBottom({*std::max_element(std::begin(x), std::end(x)),
                           *std::max_element(std::begin(y), std::end(y))});
+}
+
+Image ImageProcessingHelper::merge_diff_images_fading(std::vector<Image> imageSubjects, Image background) {
+    int width = background.getWidth();
+    int height = background.getHeight();
+    int size = imageSubjects.size();
+    int r,g,b,r1,r2,g1,g2,b1,b2;
+    for (int x = 0; x < height; x++) {
+        for (int y = 0; y < width; y++) {
+            for (int k = 0; k < size; k++) {
+                std::vector<int> subjectPixel = imageSubjects[k].getPixel(x, y);
+                std::vector<int> bgPixel = background.getPixel(x, y);
+                std::vector<int> fadePixel;
+                if (subjectPixel != ImageProcessingHelper::pink && subjectPixel != ImageProcessingHelper::pinkRGBA) {
+                    r1=bgPixel[0];r2=subjectPixel[0];
+                    g1=bgPixel[1];g2=subjectPixel[1];
+                    b1=bgPixel[2];b2=subjectPixel[2];
+                    r=int((r1*r2)/255);
+                    g=int((g1*g2)/255);
+                    b=int((b1*b2)/255);
+                    fadePixel.push_back(r); fadePixel.push_back(g); fadePixel.push_back(b);
+                    if(background.getChannel()==4) //if channel 4
+                        fadePixel.push_back(255);
+                    background.setPixel(x, y, fadePixel);
+                }
+            }
+        }
+    }
+    return background;
 }
 
 Image ImageProcessingHelper::merge_diff_images_distance(std::vector<Image> imageSubjects, Image background, float distance) {
@@ -338,28 +353,6 @@ bool ImageProcessingHelper::point_inside_rectangle(std::array<int, 2> point,
     return (point[0] >= rect_topLeft[0] && point[1] >= rect_topLeft[1])
            && (point[0] <= rect_rightBottom[0] && point[1] <= rect_rightBottom[1]);
 }
-
-std::vector<Image> ImageProcessingHelper::RGBtoRGBA(std::vector<Image> images){
-    std::vector<Image> new_images;
-    std::vector<int> Pixel;
-    int width, height;
-    for (int i = 0; i < images.size(); i++) {
-        width = images[i].getWidth();
-        height = images[i].getHeight();
-        Image img = Image(width, height, 4);
-        for (int x = 0; x < height; x++) {
-            for (int y = 0; y < width; y++) {
-                Pixel = images[i].getPixel(x, y);
-                Pixel.push_back(255);
-                img.setPixel(x,y,Pixel);
-                Pixel.clear();
-            }
-        }
-        new_images.push_back(img);
-    }
-    return new_images;
-}
-
 
 std::vector<std::array<int, 2>> ImageProcessingHelper::get_ccRGBA(Image &image, int startX, int startY) {
     int index = 0;
