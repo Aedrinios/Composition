@@ -19,7 +19,11 @@ namespace ImageProcessingHelper {
      * @return
      */
     static std::vector<int> pinkRGBA{255, 20, 147, 255};
-
+    /**
+     *
+     * @param a list of image in which we are looking for the background
+     * @return the image representing the background
+     */
     Image median_images(std::vector<Image> images);
 
     void detect_subjects(std::vector<Image> &imageSubjects, Image background, int tolerance, int min_size_connexe);
@@ -31,9 +35,20 @@ namespace ImageProcessingHelper {
 	Image merge_diff_images_overlap(std::vector<Image> imageSubjects, Image background);
 
     Image crop(Image img, int width, int height);
+    /**
+     *
+     * @param the image we want to filter
+     * @param the minimum size of the connected components we want to keep
+     */
+    void filter_cc(Image &image, const int& minSize);
 
-    void filter_cc(Image &image, const int& minSize, std::string name);
-
+    /**
+     *
+     * @param The image in which we are looking for the connected component
+     * @param position of the starting point on the x axis
+     * @param position of the starting point on the y axis
+     * @return a vector of array of size 2 containing the point of each pixel of the connected component
+     */
     std::vector<std::array<int, 2>> get_cc(Image& image, int startX, int startY);
 
     std::vector<std::array<int, 2>> get_ccRGBA(Image& image, int startX, int startY);
@@ -49,10 +64,10 @@ namespace ImageProcessingHelper {
 
     /**
      *
-     * @param imageSubjects
+     * @param list of images of subjects to merge
      * @param background
-     * @param distance
-     * @return
+     * @param minimal distance between the subjects of the images
+     * @return An image representing the fusion between the background and the subjects
      */
     Image merge_diff_images_distance(std::vector<Image> imageSubjects, Image background, float distance);
 

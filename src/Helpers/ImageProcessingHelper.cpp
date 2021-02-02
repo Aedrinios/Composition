@@ -133,7 +133,7 @@ Image ImageProcessingHelper::merge_diff_images(std::vector<Image> imageSubjects,
 }
 
 
-void ImageProcessingHelper::filter_cc(Image &image, const int &minSize, std::string name) {
+void ImageProcessingHelper::filter_cc(Image &image, const int &minSize) {
     std::vector<std::array<int, 2> > cc;
     std::vector<std::array<int, 2> > ccMax;
     Image copy = image;
@@ -178,13 +178,9 @@ void ImageProcessingHelper::filter_cc(Image &image, const int &minSize, std::str
 
     image.setRightBottom({*std::max_element(std::begin(x), std::end(x)),
                           *std::max_element(std::begin(y), std::end(y))});
-
-    //image.write("../out/filter_cc_" + name);
 }
 
-
-//Image
-ImageProcessingHelper::merge_diff_images_distance(std::vector<Image> imageSubjects, Image background, float distance) {
+Image ImageProcessingHelper::merge_diff_images_distance(std::vector<Image> imageSubjects, Image background, float distance) {
     int width = background.getWidth();
     int height = background.getHeight();
     std::array<int, 2> image_midpoint{};

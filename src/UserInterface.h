@@ -34,9 +34,13 @@ public:
     void enter_fading();
     void enter_merge_diff();
     std::vector<Image> getImages();
-
+    /**
+     * Ask the user to enter a value for the number of image to skip during the merge
+     */
     void enter_step();
-
+    /**
+     *  Ask the user to enter an value for the minimum distance between two subjets during the merge
+     */
     void enter_distance();
 };
 
