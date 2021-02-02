@@ -111,23 +111,32 @@ void UserInterface::image_processing() {
     Debug::log("begin : add_subjects");
     ImageProcessingHelper::detect_subjects(_images, median, _tolerance, _min_size_connexe);
     Debug::log("end : add_subjects");
-    if (mergeType == 1 || mergeType == 4) {
+    if (mergeType == 1 || mergeType == 5) {
         Debug::log("begin : merge_diff_images");
         if(_images[0].getChannel()==3)
-            ImageProcessingHelper::merge_diff_images(_images, median, _fading_state).write(_name_folder_out+"/full.jpg");
+            ImageProcessingHelper::merge_diff_images(_images, median).write(_name_folder_out+"/full.jpg");
         else if(_images[0].getChannel()==4)
-            ImageProcessingHelper::merge_diff_images(_images, median, _fading_state).write(_name_folder_out+"/full.png");
+            ImageProcessingHelper::merge_diff_images(_images, median).write(_name_folder_out+"/full.png");
+
         Debug::log("end : merge_diff_images");
     }
-    if (mergeType == 2 || mergeType == 4) {
+    if (mergeType == 2 || mergeType == 5) {
         Debug::log("begin : merge_diff_images_overlap");
         ImageProcessingHelper::merge_diff_images_overlap(_images, median).write(_name_folder_out + "/full-overlap.jpg");
         Debug::log("end : merge_diff_images_overlap");
     }
-    if (mergeType == 3 || mergeType == 4) {
+    if (mergeType == 3 || mergeType == 5) {
         Debug::log("begin : merge_diff_images_distance");
         ImageProcessingHelper::merge_diff_images_distance(_images, median, _distance).write(_name_folder_out + "/full-distance.jpg");
         Debug::log("end : merge_diff_images_distance");
+    }
+    if (mergeType == 4 || mergeType == 5) {
+        Debug::log("begin : merge_diff_images");
+        if(_images[0].getChannel()==3)
+            ImageProcessingHelper::merge_diff_images_fading(_images, median).write(_name_folder_out+"/full-fade.jpg");
+        else if(_images[0].getChannel()==4)
+            ImageProcessingHelper::merge_diff_images_fading(_images, median).write(_name_folder_out+"/full-fade.png");
+        Debug::log("end : merge_diff_images");
     }
 
 }
@@ -178,19 +187,20 @@ void UserInterface::enter_merge_diff() {
 		std::cout << "1 - Default" << std::endl;
 		std::cout << "2 - Overlap" << std::endl;
 		std::cout << "3 - Distance" << std::endl;
-		std::cout << "4 - All (generate all type)" << std::endl;
+        std::cout << "4 - Fading" << std::endl;
+		std::cout << "5 - All (generate all type)" << std::endl;
 
 		std::string tmp;
 		getline(std::cin, tmp);
 		mergeType = StringHelper::StringToInt(tmp);
-		if (mergeType < 1 || mergeType > 4) {
+		if (mergeType < 1 || mergeType > 5) {
 			std::cout << tmp << " n'existe pas dans les choix" << std::endl;
 			nextStep = false;
 		} else {
 			nextStep = true;
 		}
 	}
-	if(mergeType == 3 || mergeType == 4){
+	if(mergeType == 3 || mergeType == 5){
 	    enter_distance();
 	}
 }
@@ -202,6 +212,4 @@ void UserInterface::enter_distance(){
     _distance = StringHelper::StringToInt(tmp);
 }
 
-std::vector<Image> UserInterface::getImages(){
-    return _images;
 }
