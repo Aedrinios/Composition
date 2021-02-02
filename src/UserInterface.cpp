@@ -133,12 +133,12 @@ void UserInterface::image_processing() {
 		Debug::log("end : merge_diff_images_distance");
 	}
 	if (mergeType == 4 || mergeType == 5) {
-		Debug::log("begin : merge_diff_images");
+		Debug::log("begin : merge_diff_images_fading");
 		if (_images[0].getChannel() == 3)
 			ImageProcessingHelper::merge_diff_images_fading(_images, median).write(_name_folder_out + "/full-fade.jpg");
 		else if (_images[0].getChannel() == 4)
 			ImageProcessingHelper::merge_diff_images_fading(_images, median).write(_name_folder_out + "/full-fade.png");
-		Debug::log("end : merge_diff_images");
+		Debug::log("end : merge_diff_images_fading");
 	}
 	std::time_t end = time(0);
 	double seconds = difftime(end, start);
