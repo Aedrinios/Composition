@@ -1,11 +1,12 @@
+//
+// Created by gacon on 30/01/2021.
+//
 #include <Helpers/ImageProcessingHelper.h>
 #include <Tools/Debug.h>
 #include "UserInterface.h"
 #include "Helpers/StringHelpers.h"
+#include <ctime>
 
-//
-// Created by gacon on 30/01/2021.
-//
 void UserInterface::start() {
 	std::cout << "Composition d'images! Trop bien! " << std::endl; //Greetings
 
@@ -60,7 +61,7 @@ void UserInterface::settings() {
 		std::cout << "1 - Lancer le programme" << std::endl;
 		std::cout << "2 - Modifier la tolerance (Actuellement : " + std::to_string(_tolerance) + ")" << std::endl;
 		std::cout << "3 - Modifier la taille minimum d'un composant connexe (Actuellement : " +
-		             std::to_string(_min_size_connexe) + ")" << std::endl;
+		             std::to_string(_min_size_cc) + ")" << std::endl;
 		std::cout << "4 - Activer/Desactiver la step" << std::endl;
 		std::cout << "5 - Modifier le type de fusion d'image (" << mergeType << ")" << std::endl;
 
@@ -75,7 +76,7 @@ void UserInterface::settings() {
 				enter_tolerance();
 				break;
 			case 3 :
-				enter_size_connexe();
+				enter_size_cc();
 				break;
 			case 4:
 				enter_step();
@@ -90,55 +91,58 @@ void UserInterface::settings() {
 }
 
 void UserInterface::image_processing() {
-    std::cout << "Dans quel dossier voulez-vous exporter le resultat?" << " (" << _name_folder_out << ")" << std::endl;
-    getline(std::cin, _name_folder_out);
-    if (_name_folder_out.empty()) {
-        _name_folder_out = "out";
-    }
-    if (!FileHelper::exist(_name_folder_out)) {
-        FileHelper::createDirectory(_name_folder_out);
-    }
-    std::cout << mergeType<< std::endl;
+	std::cout << "Dans quel dossier voulez-vous exporter le resultat?" << " (" << _name_folder_out << ")" << std::endl;
+	getline(std::cin, _name_folder_out);
+	if (_name_folder_out.empty()) {
+		_name_folder_out = "out";
+	}
+	if (!FileHelper::exist(_name_folder_out)) {
+		FileHelper::createDirectory(_name_folder_out);
+	}
+	std::time_t start = time(0);
 
-    FileHelper::clearDirectory("_name_folder_out");
-    Debug::log("begin : median_images");
-    Image median = ImageProcessingHelper::median_images(_images);
-    if(_images[0].getChannel()==3)
-        median.write("../"+_name_folder_out+"/median.jpg");
-    else if(_images[0].getChannel()==4)
-        median.write("../"+_name_folder_out+"/median.png");
-    Debug::log("end : median_images");
-    Debug::log("begin : add_subjects");
-    ImageProcessingHelper::detect_subjects(_images, median, _tolerance, _min_size_connexe);
-    Debug::log("end : add_subjects");
-    if (mergeType == 1 || mergeType == 5) {
-        Debug::log("begin : merge_diff_images");
-        if(_images[0].getChannel()==3)
-            ImageProcessingHelper::merge_diff_images(_images, median).write(_name_folder_out+"/full.jpg");
-        else if(_images[0].getChannel()==4)
-            ImageProcessingHelper::merge_diff_images(_images, median).write(_name_folder_out+"/full.png");
+	FileHelper::clearDirectory("_name_folder_out");
+	Debug::log("begin : median_images");
+	Image median = ImageProcessingHelper::median_images(_images);
+	if (_images[0].getChannel() == 3)
+		median.write("../" + _name_folder_out + "/median.jpg");
+	else if (_images[0].getChannel() == 4)
+		median.write("../" + _name_folder_out + "/median.png");
+	Debug::log("end : median_images");
+	Debug::log("begin : add_subjects");
+	ImageProcessingHelper::detect_subjects(_images, median, _tolerance, _min_size_cc);
+	Debug::log("end : add_subjects");
+	if (mergeType == 1 || mergeType == 5) {
+		Debug::log("begin : merge_diff_images");
+		if (_images[0].getChannel() == 3)
+			ImageProcessingHelper::merge_diff_images(_images, median).write(_name_folder_out + "/full.jpg");
+		else if (_images[0].getChannel() == 4)
+			ImageProcessingHelper::merge_diff_images(_images, median).write(_name_folder_out + "/full.png");
 
-        Debug::log("end : merge_diff_images");
-    }
-    if (mergeType == 2 || mergeType == 5) {
-        Debug::log("begin : merge_diff_images_overlap");
-        ImageProcessingHelper::merge_diff_images_overlap(_images, median).write(_name_folder_out + "/full-overlap.jpg");
-        Debug::log("end : merge_diff_images_overlap");
-    }
-    if (mergeType == 3 || mergeType == 5) {
-        Debug::log("begin : merge_diff_images_distance");
-        ImageProcessingHelper::merge_diff_images_distance(_images, median, _distance).write(_name_folder_out + "/full-distance.jpg");
-        Debug::log("end : merge_diff_images_distance");
-    }
-    if (mergeType == 4 || mergeType == 5) {
-        Debug::log("begin : merge_diff_images");
-        if(_images[0].getChannel()==3)
-            ImageProcessingHelper::merge_diff_images_fading(_images, median).write(_name_folder_out+"/full-fade.jpg");
-        else if(_images[0].getChannel()==4)
-            ImageProcessingHelper::merge_diff_images_fading(_images, median).write(_name_folder_out+"/full-fade.png");
-        Debug::log("end : merge_diff_images");
-    }
-
+		Debug::log("end : merge_diff_images");
+	}
+	if (mergeType == 2 || mergeType == 5) {
+		Debug::log("begin : merge_diff_images_overlap");
+		ImageProcessingHelper::merge_diff_images_overlap(_images, median).write(_name_folder_out + "/full-overlap.jpg");
+		Debug::log("end : merge_diff_images_overlap");
+	}
+	if (mergeType == 3 || mergeType == 5) {
+		Debug::log("begin : merge_diff_images_distance");
+		ImageProcessingHelper::merge_diff_images_distance(_images, median, _distance).write(
+				_name_folder_out + "/full-distance.jpg");
+		Debug::log("end : merge_diff_images_distance");
+	}
+	if (mergeType == 4 || mergeType == 5) {
+		Debug::log("begin : merge_diff_images");
+		if (_images[0].getChannel() == 3)
+			ImageProcessingHelper::merge_diff_images_fading(_images, median).write(_name_folder_out + "/full-fade.jpg");
+		else if (_images[0].getChannel() == 4)
+			ImageProcessingHelper::merge_diff_images_fading(_images, median).write(_name_folder_out + "/full-fade.png");
+		Debug::log("end : merge_diff_images");
+	}
+	std::time_t end = time(0);
+	double seconds = difftime(end, start);
+	Debug::log("execution time" + std::to_string(seconds));
 }
 
 void UserInterface::enter_tolerance() {
@@ -148,29 +152,11 @@ void UserInterface::enter_tolerance() {
 	_tolerance = StringHelper::StringToInt(tmp);
 }
 
-void UserInterface::enter_size_connexe() {
+void UserInterface::enter_size_cc() {
 	std::string tmp;
 	std::cout << "Taille minimum d'une composante connexe (nombre de pixel)" << std::endl;
 	getline(std::cin, tmp);
-	_min_size_connexe = StringHelper::StringToInt(tmp);
-}
-
-void UserInterface::enter_fading() {
-	std::string tmp;
-	if (_fading_state == 0) {
-		std::cout << "Activer le fading?   y/n " << std::endl;
-		getline(std::cin, tmp);
-		if (tmp == "y" || tmp == "Y" || tmp == "yes") {
-
-            _fading_state=1;
-		}
-	} else {
-		std::cout << "Desactiver le fading?   y/n " << std::endl;
-		getline(std::cin, tmp);
-		if (tmp == "y" || tmp == "Y" || tmp == "yes") {
-			_fading_state = 0;
-		}
-	}
+	_min_size_cc = StringHelper::StringToInt(tmp);
 }
 
 void UserInterface::enter_step() {
@@ -187,7 +173,7 @@ void UserInterface::enter_merge_diff() {
 		std::cout << "1 - Default" << std::endl;
 		std::cout << "2 - Overlap" << std::endl;
 		std::cout << "3 - Distance" << std::endl;
-        std::cout << "4 - Fading" << std::endl;
+		std::cout << "4 - Fading" << std::endl;
 		std::cout << "5 - All (generate all type)" << std::endl;
 
 		std::string tmp;
@@ -200,16 +186,14 @@ void UserInterface::enter_merge_diff() {
 			nextStep = true;
 		}
 	}
-	if(mergeType == 3 || mergeType == 5){
-	    enter_distance();
+	if (mergeType == 3 || mergeType == 5) {
+		enter_distance();
 	}
 }
 
-void UserInterface::enter_distance(){
-    std::string tmp;
-    std::cout << "Distance entre les sujets" << std::endl;
-    getline (std::cin, tmp);
-    _distance = StringHelper::StringToInt(tmp);
-}
-
+void UserInterface::enter_distance() {
+	std::string tmp;
+	std::cout << "Distance entre les sujets" << std::endl;
+	getline(std::cin, tmp);
+	_distance = (float) StringHelper::StringToInt(tmp);
 }

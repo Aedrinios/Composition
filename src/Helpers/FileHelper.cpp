@@ -23,7 +23,7 @@ bool FileHelper::remove(const std::string &path) {
 	}
 }
 
-bool FileHelper::clearDirectory(const std::string &path){
+bool FileHelper::clearDirectory(const std::string &path) {
 	FileHelper::remove(path);
 	return FileHelper::createDirectory(path);
 }
