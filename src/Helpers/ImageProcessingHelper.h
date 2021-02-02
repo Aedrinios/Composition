@@ -13,19 +13,19 @@
 
 namespace ImageProcessingHelper {
     static std::vector<int> pink{255, 20, 147};
-    static std::vector<int> pinkRGBA{255, 20, 147, 255};
+
     /**
      *
      * @param images
      * @return
      */
     static std::vector<int> pinkRGBA{255, 20, 147, 255};
+
     /**
      *
      * @param a list of image in which we are looking for the background
      * @return the image representing the background
      */
-
     Image median_images(std::vector<Image> images);
 
     void detect_subjects(std::vector<Image> &imageSubjects, Image background, int tolerance, int min_size_connexe);
