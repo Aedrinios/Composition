@@ -53,6 +53,9 @@ public:
      * Handle Fading
      */
     void enter_fading();
+    /**
+     * Change merge parameters
+     */
     void enter_merge_diff();
     std::vector<Image> getImages();
 

@@ -61,9 +61,8 @@ void UserInterface::settings() {
 		std::cout << "2 - Modifier la tolerance (Actuellement : " + std::to_string(_tolerance) + ")" << std::endl;
 		std::cout << "3 - Modifier la taille minimum d'un composant connexe (Actuellement : " +
 		             std::to_string(_min_size_connexe) + ")" << std::endl;
-		std::cout << "4 - Activer/Desactiver le Fading" << std::endl;
-		std::cout << "5 - Activer/Desactiver la step" << std::endl;
-		std::cout << "6 - Modifier le type de fusion d'image (" << mergeType << ")" << std::endl;
+		std::cout << "4 - Activer/Desactiver la step" << std::endl;
+		std::cout << "5 - Modifier le type de fusion d'image (" << mergeType << ")" << std::endl;
 
 
 		getline(std::cin, tmp);
@@ -78,13 +77,10 @@ void UserInterface::settings() {
 			case 3 :
 				enter_size_connexe();
 				break;
-			case 4 :
-				enter_fading();
-				break;
-			case 5 :
+			case 4:
 				enter_step();
 				break;
-			case 6 :
+			case 5 :
 				enter_merge_diff();
 				break;
 			default:
