@@ -13,6 +13,7 @@
 
 namespace ImageProcessingHelper {
     static std::vector<int> pink{255, 20, 147};
+    static std::vector<int> pinkRGBA{255, 20, 147, 255};
     /**
      *
      * @param images
@@ -24,6 +25,7 @@ namespace ImageProcessingHelper {
      * @param a list of image in which we are looking for the background
      * @return the image representing the background
      */
+
     Image median_images(std::vector<Image> images);
 
     void detect_subjects(std::vector<Image> &imageSubjects, Image background, int tolerance, int min_size_connexe);
@@ -51,6 +53,13 @@ namespace ImageProcessingHelper {
      */
     std::vector<std::array<int, 2>> get_cc(Image& image, int startX, int startY);
 
+    /**
+     * get_cc for RGBA images
+     * @param image
+     * @param startX
+     * @param startY
+     * @return
+     */
     std::vector<std::array<int, 2>> get_ccRGBA(Image& image, int startX, int startY);
 
 	/**
@@ -71,9 +80,12 @@ namespace ImageProcessingHelper {
      */
     Image merge_diff_images_distance(std::vector<Image> imageSubjects, Image background, float distance);
 
+    /**
+     * Convert RGB image to RGBA
+     * @param images
+     * @return
+     */
     std::vector<Image> RGBtoRGBA(std::vector<Image> images);
-
-    void fade_cc(Image &image, int fading);
 };
 
 
