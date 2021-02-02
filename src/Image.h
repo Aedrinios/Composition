@@ -111,7 +111,12 @@ public:
 	}
 	// End : assessor
 
-	bool canDraw(std::vector<Image>& addedImages);
+	/**
+	 * check if the image overlaps another
+	 * @param addedImages images to compare
+	 * @return true if can draw
+	 */
+	bool canDraw(std::vector<Image> &addedImages);
 };
 
 #endif //COMPOSITION_IMAGE_H

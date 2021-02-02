@@ -17,7 +17,7 @@ void StringHelper::toUpper(std::string *str) {
 	}
 }
 
-int StringHelper::StringToInt(const std::string& value) {
+int StringHelper::StringToInt(const std::string &value) {
 	try {
 		return std::stoi(value);
 	}

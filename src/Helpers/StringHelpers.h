@@ -19,11 +19,12 @@ namespace StringHelper {
 	 * @param str to Upper
 	 */
 	void toUpper(std::string *str);
+
 	/**
 	 * Convert std::string to Int
 	 * @param value
 	 * @return converted value
 	 */
-	int StringToInt(const std::string& value);
+	int StringToInt(const std::string &value);
 }
 #endif //COMPOSITION_STRINGHELPERS_H
