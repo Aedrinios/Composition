@@ -54,7 +54,6 @@ public:
      */
     void enter_fading();
     void enter_merge_diff();
-    std::vector<Image> getImages();
 
     void enter_step();
 

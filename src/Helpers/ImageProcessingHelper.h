@@ -26,7 +26,9 @@ namespace ImageProcessingHelper {
 
     bool calculate_tolerance(std::vector<int> pixelColor, std::vector<int> pixelRef, int tolerance);
 
-    Image merge_diff_images(std::vector<Image> imageSubjects, Image background, int fading_state);
+    Image merge_diff_images(std::vector<Image> imageSubjects, Image background);
+
+    Image merge_diff_images_fading(std::vector<Image> imageSubjects, Image background);
 
 	Image merge_diff_images_overlap(std::vector<Image> imageSubjects, Image background);
 
@@ -63,12 +65,6 @@ namespace ImageProcessingHelper {
      */
     Image merge_diff_images_distance(std::vector<Image> imageSubjects, Image background, float distance);
 
-    /**
-     * Convert RGB image to RGBA
-     * @param images
-     * @return
-     */
-    std::vector<Image> RGBtoRGBA(std::vector<Image> images);
 };
 
 
