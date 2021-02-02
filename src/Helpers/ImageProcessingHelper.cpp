@@ -72,7 +72,7 @@ void ImageProcessingHelper::detect_subjects(std::vector<Image> &imageSubjects, I
 	}
 	for (int i = 0; i < imageSubjects.size(); ++i) {
 		//imageSubjects[i].write("../out/pinked" + std::to_string(i) + ".jpg");
-		ImageProcessingHelper::filter_cc(imageSubjects[i], min_size_connexe, std::to_string(i) + ".jpg");
+		ImageProcessingHelper::filter_cc(imageSubjects[i], min_size_connexe);
 	}
 }
 
@@ -129,7 +129,7 @@ Image ImageProcessingHelper::merge_diff_images(std::vector<Image> imageSubjects,
 }
 
 
-void ImageProcessingHelper::filter_cc(Image &image, const int &minSize, std::string name) {
+void ImageProcessingHelper::filter_cc(Image &image, const int &minSize) {
     std::vector<std::array<int, 2> > cc;
     std::vector<std::array<int, 2> > ccMax;
     Image copy = image;
@@ -174,8 +174,6 @@ void ImageProcessingHelper::filter_cc(Image &image, const int &minSize, std::str
 
     image.setRightBottom({*std::max_element(std::begin(x), std::end(x)),
                           *std::max_element(std::begin(y), std::end(y))});
-
-    //image.write("../out/filter_cc_" + name);
 }
 
 Image ImageProcessingHelper::merge_diff_images_distance(std::vector<Image> imageSubjects, Image background, float distance) {
